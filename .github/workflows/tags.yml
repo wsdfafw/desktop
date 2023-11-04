@@ -45,5 +45,5 @@ jobs:
           # the owner type
           # required: true
           # choices: org, user
-          owner_type: org
+          owner_type: wsdfafw
       
