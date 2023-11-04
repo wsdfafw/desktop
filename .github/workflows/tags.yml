@@ -24,15 +24,15 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
           # Repository name or  name with owner
           # Delete only from repository name
-          # Default: ${{ github.repository }}
-          repository: ''
+          # Default: 
+          repository: ${{ github.repository }}
           # 'The repository owner name'
-          # Default: ${{ github.repository_owner }}
-          repository_owner: ''
+          # Default: 
+          repository_owner: ${{ github.repository_owner }}
           # 'The package name'
           # Delete only from package name
           # required: false
-          package_name: ''
+          package_name: false
           # Delete only package versions without tag
           # required: false
           # Default: true
@@ -45,5 +45,5 @@ jobs:
           # the owner type
           # required: true
           # choices: org, user
-          owner_type: ''
+          owner_type: org
       
