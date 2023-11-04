@@ -1,49 +1,19 @@
-name: tags
+name: Auto Delete Tags
 
 on:
-  workflow_dispatch:
   push:
-    
+
 jobs:
-  build:
+  delete-tags:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2.3.3
-        
-    - name: Delete untagged ghcr
-      uses: Chizkiyahu/delete-untagged-ghcr-action@v3
-      with:
-          # Personal access token (PAT) used to fetch the repository. The PAT is configured
-          # with the local git config, which enables your scripts to run authenticated git
-          # commands. The post-job step removes the PAT.
-          # needs delete:packages permissions
-          # required: true
-          # [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
-          token: ${{ secrets.PAT_TOKEN }}
-          # Repository name or  name with owner
-          # Delete only from repository name
-          # Default: 
-          repository: ${{ github.repository }}
-          # 'The repository owner name'
-          # Default: 
-          repository_owner: ${{ github.repository_owner }}
-          # 'The package name'
-          # Delete only from package name
-          # required: false
-          package_name: false
-          # Delete only package versions without tag
-          # required: false
-          # Default: true
-          # choices: true, false
-          untagged_only: true
-          # Except untagged multiplatform packages from deletion 
-          # only for untagged_only=true
-          # needs docker installed
-          except_untagged_multiplatform: false
-          # the owner type
-          # required: true
-          # choices: org, user
-          owner_type: wsdfafw
-      
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: List Tags
+        run: |
+          git fetch --prune --tags
+          git tag -l | xargs -n 1 git push --delete origin
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
