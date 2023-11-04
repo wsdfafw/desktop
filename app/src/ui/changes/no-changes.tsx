@@ -310,25 +310,26 @@ export class NoChanges extends React.Component<
     const menuItem = this.getMenuItemInfo(itemId)
 
     if (menuItem === undefined) {
-      log.error(`Could not find matching menu item for ${itemId}`)
+      log.error(`无法找到匹配的菜单项 ${itemId}`)
       return null
     }
 
     const preferencesMenuItem = this.getMenuItemInfo('preferences')
 
     if (preferencesMenuItem === undefined) {
-      log.error(`Could not find matching menu item for ${itemId}`)
+      log.error(`无法找到匹配的菜单项 'preferences'`)
       return null
     }
 
-    const title = `Open the repository in your external editor`
+    const title = `在外部编辑器中打开存储库`
 
     const description = (
       <>
-        Select your editor in{' '}
+        在{' '}
         <LinkButton onClick={this.openIntegrationPreferences}>
-          {__DARWIN__ ? 'Preferences' : 'Options'}
+          {__DARWIN__ ? '首选项' : '选项'}
         </LinkButton>
+        中选择您的编辑器
       </>
     )
 
