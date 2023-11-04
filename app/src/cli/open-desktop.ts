@@ -18,7 +18,7 @@ export function openDesktop(url: string = '') {
     return ChildProcess.spawn('xdg-open', [url], { env })
   } else {
     throw new Error(
-      `Desktop command line interface not currently supported on platform ${process.platform}`
+      `当前平台 ${process.platform} 上不支持桌面命令行界面`
     )
   }
 }

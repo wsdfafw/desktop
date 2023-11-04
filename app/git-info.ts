@@ -30,7 +30,7 @@ function readPackedRefsFile(gitDir: string, ref: string) {
   const packedRefMatch = refRe.exec(packedRefsContents)
 
   if (!packedRefMatch) {
-    throw new Error(`Could not find ref entry in .git/packed-refs file: ${ref}`)
+    throw new Error(`无法在 .git/packed-refs 文件中找到引用条目：${ref}`)
   }
   return packedRefMatch[1]
 }
@@ -59,7 +59,7 @@ function revParse(gitDir: string, ref: string): string {
     }
 
     throw new Error(
-      `Could not de-reference HEAD to SHA, ref does not exist on disk: ${refPath}`
+      `无法将 HEAD 解引用为 SHA，引用在磁盘上不存在：${refPath}`
     )
   }
   // eslint-disable-next-line no-sync
@@ -69,7 +69,7 @@ function revParse(gitDir: string, ref: string): string {
 
   if (!refMatch) {
     throw new Error(
-      `Could not de-reference HEAD to SHA, invalid ref in ${refPath}: ${refContents}`
+      `无法将 HEAD 解引用为 SHA，${refPath} 中的引用无效：${refContents}`
     )
   }
 

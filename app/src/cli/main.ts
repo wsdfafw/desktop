@@ -48,7 +48,7 @@ function logError(err: CommandError) {
   }
 }
 
-console.log() // nice blank line before the command prompt
+console.log() // 命令提示符前的空行
 
 interface IMRIOpts extends MriOptions {
   alias: DictionaryObject<ArrayOrString>
@@ -96,9 +96,9 @@ function runCommand(name: string) {
       const expectedType = command.options[flag].type
       if (typeof value !== expectedType) {
         throw new CommandError(
-          `Value passed to flag ${dasherizeOption(
+          `传递给标志 ${dasherizeOption(
             flag
-          )} was of type ${typeof value}, but was expected to be of type ${expectedType}`
+          )} 的值的类型为 ${typeof value}，但应该是类型 ${expectedType}`
         )
       }
     }

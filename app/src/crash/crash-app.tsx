@@ -12,31 +12,30 @@ import { getOS } from '../lib/get-os'
 import * as ipcRenderer from '../lib/ipc-renderer'
 import { getCurrentWindowState } from '../ui/main-process-proxy'
 
-// This is a weird one, let's leave it as a placeholder
+// 这是一个奇怪的部分，我们将其保留为占位符
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ICrashAppProps {}
 
 interface ICrashAppState {
   /**
-   * Whether this error was thrown before we were able to launch
-   * the main renderer process or not. See the documentation for
-   * the ErrorType type for more details.
+   * 表示此错误是否在启动主渲染进程之前引发，
+   * 请参考ErrorType类型的文档以获取更多详细信息。
    */
   readonly type?: ErrorType
 
   /**
-   * The error that caused us to spawn the crash process.
+   * 引发崩溃进程的错误。
    */
   readonly error?: Error
 
   /**
-   * The current state of the Window, ie maximized, minimized full-screen etc.
+   * 窗口的当前状态，例如最大化、最小化、全屏等。
    */
   readonly windowState: WindowState | null
 }
 
-// Note that we're reusing the welcome illustration here, any changes to it
-// will have to be reflected in the welcome flow as well.
+// 请注意，我们在这里重用了欢迎插图，对它进行任何更改
+// 都必须反映在欢迎流程中。
 const BottomImageUri = encodePathAsUrl(
   __dirname,
   'static/welcome-illustration-left-bottom.svg'
@@ -45,9 +44,8 @@ const BottomImageUri = encodePathAsUrl(
 const issuesUri = 'https://github.com/desktop/desktop/issues'
 
 /**
- * Formats an error by attempting to strip out user-identifiable information
- * from paths and appends system metadata such and the running version and
- * current operating system.
+ * 通过尝试从路径中删除用户可识别信息来格式化错误
+ * 并附加系统元数据，如运行版本和当前操作系统。
  */
 function prepareErrorMessage(error: Error) {
   let message
@@ -56,12 +54,12 @@ function prepareErrorMessage(error: Error) {
     message = error.stack
       .split('\n')
       .map(line => {
-        // The stack trace lines come in two forms:
+        // 堆栈跟踪行有两种形式：
         //
         // `at Function.module.exports.Emitter.simpleDispatch (SOME_USER_SPECIFIC_PATH/app/node_modules/event-kit/lib/emitter.js:25:14)`
         // `at file:///SOME_USER_SPECIFIC_PATH/app/renderer.js:6:4250`
         //
-        // We want to try to strip the user-specific path part out.
+        // 我们要尽量剥离用户特定的路径部分。
         const match = line.match(/(\s*)(.*)(\(|file:\/\/\/).*(app.*)/)
 
         return !match || match.length < 5
@@ -77,14 +75,11 @@ function prepareErrorMessage(error: Error) {
 }
 
 /**
- * The root component for our crash process.
+ * 崩溃进程的根组件。
  *
- * The crash process is responsible for presenting the user with an
- * error after the main process or any renderer process has crashed due
- * to an uncaught exception or when the main renderer has failed to load.
+ * 崩溃进程负责在主进程或任何渲染进程因未捕获的异常而崩溃或主渲染器无法加载时向用户呈现错误。
  *
- * Exercise caution when working with the crash process. If the crash
- * process itself crashes we've failed.
+ * 在处理崩溃进程时要小心。如果崩溃进程本身崩溃了，那么我们就失败了。
  */
 export class CrashApp extends React.Component<ICrashAppProps, ICrashAppState> {
   public constructor(props: ICrashAppProps) {
@@ -136,8 +131,8 @@ export class CrashApp extends React.Component<ICrashAppProps, ICrashAppState> {
   private renderTitle() {
     const message =
       this.state.type === 'launch'
-        ? 'GitHub Desktop failed to launch'
-        : 'GitHub Desktop encountered an error'
+        ? 'GitHub Desktop 启动失败'
+        : 'GitHub Desktop 发生错误'
 
     return (
       <header>
@@ -151,19 +146,17 @@ export class CrashApp extends React.Component<ICrashAppProps, ICrashAppState> {
     if (this.state.type === 'launch') {
       return (
         <p>
-          GitHub Desktop encountered a catastrophic error that prevents it from
-          launching. This has been reported to the team, but if you encounter
-          this repeatedly please report this issue to the GitHub Desktop{' '}
-          <LinkButton uri={issuesUri}>issue tracker</LinkButton>.
+          GitHub Desktop 遇到了阻止其启动的严重错误。这已报告给团队，但如果您反复遇到此问题，请向GitHub Desktop的
+          <LinkButton uri={issuesUri}>问题跟踪器</LinkButton>
+          报告此问题。
         </p>
       )
     } else {
       return (
         <p>
-          GitHub Desktop has encountered an unrecoverable error and will need to
-          restart. This has been reported to the team, but if you encounter this
-          repeatedly please report this issue to the GitHub Desktop{' '}
-          <LinkButton uri={issuesUri}>issue tracker</LinkButton>.
+          GitHub Desktop 遇到了不可恢复的错误，需要重新启动。这已报告给团队，但如果您反复遇到此问题，请向GitHub Desktop的
+          <LinkButton uri={issuesUri}>问题跟踪器</LinkButton>
+          报告此问题。
         </p>
       )
     }
@@ -185,12 +178,12 @@ export class CrashApp extends React.Component<ICrashAppProps, ICrashAppState> {
 
   private renderQuitButton() {
     let quitText
-    // We don't support restarting in dev mode since we can't
-    // control the life time of the dev server.
+    // 在开发模式下，我们不支持重新启动，因为我们无法
+    // 控制开发服务器的生存周期。
     if (__DEV__) {
-      quitText = __DARWIN__ ? 'Quit' : 'Exit'
+      quitText = __DARWIN__ ? '退出' : '退出'
     } else {
-      quitText = __DARWIN__ ? 'Quit and Restart' : 'Exit and restart'
+      quitText = __DARWIN__ ? '退出并重新启动' : '退出并重新启动'
     }
 
     return (

@@ -1,462 +1,308 @@
-### Download Desktop
-  - [ ] [User can download latest (Mac & Windows) Desktop](https://desktop.github.com/) 
-    - [ ] [Mac](https://central.github.com/deployments/desktop/desktop/latest/darwin)
-      - [ ] Homebrew package manager: `brew cask install github-desktop`
-    - [ ] [Windows](https://central.github.com/deployments/desktop/desktop/latest/win32)
-      - [ ] Chocolatey package manager: `choco install github-desktop`
-      - [ ] 64-bit and up
-    - [ ] Data is retained if you download and open a fresh copy
-  - [ ] Release notes page is up-to-date in app and can be accessed from [here](https://desktop.github.com/release-notes/)
-  - [ ] [Help page](https://help.github.com/desktop/) is accessible
-  - [ ] 'Please update' notification shown in Classic apps
+### 下载桌面应用
+- [ ] 用户可以下载最新版本（Mac和Windows）的桌面应用
+  - [ ] [Mac](https://central.github.com/deployments/desktop/desktop/latest/darwin)
+    - [ ] Homebrew软件包管理器：`brew cask install github-desktop`
+  - [ ] [Windows](https://central.github.com/deployments/desktop/desktop/latest/win32)
+    - [ ] Chocolatey软件包管理器：`choco install github-desktop`
+    - [ ] 64位及以上
+  - [ ] 下载并打开全新副本后数据会保留
+- [ ] 发布说明页面在应用程序中是最新的，并可从[此处](https://desktop.github.com/release-notes/)访问
+- [ ] [帮助页面](https://help.github.com/desktop/)可访问
+- [ ] 经典应用程序中显示“请更新”通知
 
-### Welcome Flow
-  - [ ] Create your free account (`/join?source=github-desktop`)
-    - [ ] User is not automatically logged into Desktop post account creation
-  - [ ] `Sign in to Github.com` link
-    - [ ] `Sign in` successful if valid username/email and password
-      - [ ] If 2FA activated, user sent auth code to enter (test SMS and authenticator app)
-        - [ ] User can reissue auth code with `Resend SMS` link
-	- [ ] Sign in successful with active 2FA code, user goes to Configure Git page
-	  - [ ] User sees Repository landing page if sign-in successful
-	  - [ ] Error message if code is wrong or inactive 
-      - [ ] Error message if incorrect username/email or password
-    - [ ] Forgot link (`/password_reset`)
-    - [ ] `Cancel` returns to initial Welcome Flow page
-    - [ ] `Sign-in using your browser` opens default browser for confirmation
-      - [ ] Browser login, "authorize" GitHub Desktop, “accept” link
-        - [ ] If successful, Desktop shown in `/settings/applications` in user profile
-  - [ ] `Sign in to Enterprise` link (v2.8 and up)
-    - [ ] `Continue` successful if server address is valid, else error message
-      - [ ] `Sign in using your browser` opens default browser for confirmation
-        - [ ] Browser login, [insert custom security measure], Authorize GitHub Desktop, “accept” link
-    - [ ] User goes to Configure Git if successful
-    - [ ] `Cancel` returns to initial Welcome Flow
-    - [ ] User served generic message if not authorized to access Enterprise
-  - [ ] Skip "username+password" step
-    - [ ] Configure Git
-      - [ ] Name and email pulled from global `.gitconfig` file, if configured
-  	- [ ] If recognized, your avatar is present in example commit; gravatars not recognized
-      - [ ] `Continue` allowed if fields populated or blank
-  	- [ ] Valid login credentials from github.com or Enterprise carried through
-	  - [ ] User sees Repository landing page if sign-in successful
-  - [ ] Usage Data
-    - [ ] Checked by default; user can uncheck. (Should not be checked by default if user on free plan only.)
-      - [ ] Clicking `Finish`, results in user being signed-in successfully
-    - [ ] `Cancel` returns to initial Configure Git page
-    
-### Onboarding & Tutorial
-  - [ ] Onboarding shown if user is new to Desktop and has no repositories in the application
-    - [ ] If user logged in during sign-up process with repository lists for GitHub.com and/or Enterprise
-    - [ ] Always show suggested steps: Clone repository, Add existing repository, Add new repository
-    - [ ] If logged into GitHub, show button for creating tutorial
-      - [ ] Adding a repository will automatically exit Onboarding
-        - [ ] User can revert to Onboarding if all repositories are removed
-      - [ ] Tutorial can only be started if there is no local or remote `desktop-tutorial` repository, else error surfaced
-        - [ ] Repository is created as first step, with green checkmarks for each completed step. 
-	  - [ ] User can click `Exit Tutorial` anytime to return to Onboarding page
-      
-### Repositories landing page; default no repositories 
-  - [ ] Create New Repository (Mac: `⌘N`; Windows: `Ctrl+N`)
-    - [ ] Modal opens with name, path (choose option), readme (unchecked), git ignore, license. Name and path mandatory.
-      - [ ] If `Add this repository` warning message appears, clicking it adds to Repo list
-      - [ ] If repository name is over 100 characters, warning message is surfaced in modal
-      - [ ] If repository contains URL-hostile characters, show error message
-    - [ ] `Create Repository` button adds new repo, which is added to Repo list
-    - [ ] `Cancel` button does not save any changes made; modal closed
-    - [ ] User cannot create a new repo inside a locked local directory 
-  - [ ] Clone a Repository (Mac: `⇧⌘O`; Windows: `Ctrl+Shift+O`)
-    - [ ] Enter valid URL or `username/repo/gist`, else error message
-      - [ ] If authentication error for Github.com, modal with username/password surfaced; `Cancel` or `Save and Retry` buttons
-        - [ ] If successful, repo is cloned
-	- [ ] Modal surfaces again if unsuccessful
-      - [ ] If authentication error for Enterprise, user redirected to Preferences
-    - [ ] Valid path can be entered or selected
-      - [ ] Local path is prepopulated; if not unique then error surfaced
-    - [ ] All repos from both GitHub.com and Enterprise are populated -- your repos are listed first, followed by org(s)
-      - [ ] User must be logged in to view list; else `Sign In` button present
-      - [ ] Results are filterable, and can be selected for cloning
-    - [ ] `Clone` creates repo at selected path
-      - [ ] Repo added to Repo list
-    - [ ] `Cancel` closes modal, no repo cloned
-  - [ ] Add a Local Repository (Mac: `⌘O`; Windows: `Ctrl+O`)
-    - [ ] Valid path can be entered or selected
-    - [ ] `Add repository` activated if repo path exists
-      - [ ] Repo added to Repo list
-      - [ ] If directory path not valid, 'Create a new repo' error message is present
-    - [ ] `Cancel` closes modal, no repo added
-    - [ ] Large repos (> 100MB) trigger Initialize Git LFS modal
-      - [ ] Link takes user to (`https://git-lfs.github.com/`)
-      - [ ] Local path to repo is displayed
-      - [ ] User can click `Cancel` or `Initialize Git LFS`
-  - [ ] Drag and drop repository
-    - [ ] User can drag existing local repository into Desktop
-      - [ ] Successful attempt adds repo to Repo list; else error message
+### 欢迎流程
+- [ ] 创建您的免费帐户(`/join?source=github-desktop`)
+  - [ ] 用户在创建帐户后不会自动登录到桌面应用
+- [ ] `登录到 Github.com` 链接
+  - [ ] 如果用户名/电子邮件和密码有效，则“登录”成功
+    - [ ] 如果启用了两因素认证（2FA），用户将发送授权码进行输入（测试短信和身份验证应用）
+      - [ ] 用户可以使用“重新发送短信”链接重新发放授权码
+  - [ ] 如果激活2FA代码成功，用户将转到配置Git页面
+    - [ ] 如果登录成功，用户会看到存储库登录页面
+    - [ ] 如果代码错误或不活动，则会显示错误消息
+    - [ ] 如果用户名/电子邮件或密码不正确，则会显示错误消息
+  - [ ] 忘记密码链接(`/password_reset`)
+  - [ ] “取消”返回到初始的欢迎流程页面
+  - [ ] “使用浏览器登录”打开默认浏览器以进行确认
+    - [ ] 浏览器登录，“授权”GitHub桌面，“接受”链接
+      - [ ] 如果成功，桌面应用将显示在用户个人资料的`/settings/applications`中
+- [ ] `登录到企业` 链接（版本2.8及更高）
+  - [ ] 如果服务器地址有效，则“继续”成功，否则显示错误消息
+    - [ ] 使用浏览器登录以进行确认
+      - [ ] 浏览器登录，[插入自定义安全措施]，授权GitHub桌面，“接受”链接
+  - [ ] 如果成功，用户将转到配置Git页面
+  - [ ] “取消”返回到初始的欢迎流程
+  - [ ] 如果未被授权访问企业，则向用户提供通用消息
+- [ ] 跳过“用户名+密码”步骤
+  - [ ] 配置Git
+    - [ ] 从全局`.gitconfig`文件中提取姓名和电子邮件，如果已配置
+    - [ ] 如果被识别，您的头像将出现在示例提交中；无法识别Gravatars
+    - [ ] 如果字段填写或为空，则允许“继续”
+    - [ ] 从github.com或企业传递的有效登录凭证
+  - [ ] 如果登录成功，用户会看到存储库登录页面
+- [ ] 使用数据
+  - [ ] 默认选中；用户可以取消选中（如果用户仅使用免费计划，则不应默认选中）
+    - [ ] 点击“完成”会成功签入用户
+  - [ ] “取消”返回到初始的配置Git页面
 
-### Publishing a repository
-  - [ ] Publish Repository modal present if repo is unpublished and user clicks `Publish repository` button
-    - [ ] GitHub tab is default; Enterprise tab is also present
-      - [ ] User must be signed-in to publish, else `Sign In` button present on tab
-    - [ ] Modal fields are Name, Description (optional), `Keep this code private` checkbox, Organization list (alpha order, tab-specific, if orgs exist), `Cancel` button, `Publish Repository` button
-      - [ ] Clicking `Publish Repository` button pushes repo to GitHub.com or Enterprise; `Cancel` button closes modal
-        - [ ] Repository is present on GitHub.com or Enterprise if published 
-	- [ ] 'Visibility can't be private error' shown, if user's plan is not sufficient
-	- [ ] A `.gitattributes` file is added to the repository as part of the initial commit
-	- [ ] If repo is forked and upstream remote does not match, then modal is surfaced with Ignore/Update button 
+### 入门和教程
+- [ ] 如果用户是新的桌面用户并且在应用程序中没有存储库，则显示入门
+  - [ ] 如果用户在注册过程中登录并具有GitHub.com和/或企业的存储库列表
+  - [ ] 总是显示建议的步骤：克隆存储库，添加现有存储库，添加新存储库
+  - [ ] 如果登录到GitHub，显示创建教程的按钮
+    - [ ] 添加存储库将自动退出入门
+  - [ ] 只有当没有本地或远程的`desktop-tutorial`存储库时，才能开始教程，否则会出现错误
+    - [ ] 存储库将作为第一步创建，每个已完成的步骤都有绿色复选标记
+  - [ ] 用户可以随时点击“退出教程”返回到入门页面
 
-### Application
-  - [ ] Minimize, Maximize, Close buttons work in top nav
-      - [ ] If user zooms in and quits app, settings should be retained when reopened
-  - [ ] Double-clicking local desktop icon opens the application (Mac OS only)
-  - [ ] Double clicking top nav bar toggles full-screen / last used screen-size (Mac OS only); Exit by (Mac: `^⌘f11`; Windows: `Alt`)
-  - [ ] Clicking Desktop icon in dock/taskbar opens the application
-  - [ ] Changing desktop icon name while app is open results in package error; if app is closed then name change successful
+### 存储库登录页面；默认没有存储库
+- [ ] 创建新存储库（Mac：`⌘N`；Windows：`Ctrl+N`）
+  - [ ] 弹出模态框，包含名称、路径（选择选项）、自述文件（未选中）、Git忽略、许可证。名称和路径是必填项
+    - [ ] 如果出现“添加此存储库”警告消息，点击后将其添加到存储库列表
+    - [ ] 如果存储库名称超过100个字符，将在模态框中显示警告消息
+    - [ ] 如果存储库包含URL不友好的字符，显示错误消息
+  - [ ] “创建存储库”按钮将添加新存储库，该存储库将添加到存储库列表
+  - [ ] “取消”按钮不会保存所做的任何更改；关闭模态框
+  - [ ] 用户无法在已锁定的本地目录中创建新存储库
+- [ ] 克隆存储库（Mac：`⇧⌘O`；Windows：`Ctrl+Shift+O`）
+  - [ ] 输入有效的URL或`username/repo/gist`，否则显示错误消息
+    - [ ] 如果在GitHub.com上出现身份验证错误，将显示用户名/密码的模态框；“取消”或“保存并重试”按钮
+      - [ ] 如果成功，将克
 
-### GitHub Desktop menu top-level
-  - [ ] About GitHub Desktop
-    - [ ] Current version shown
-    - [ ] Links to release notes (modal), terms (modal), licenses (modal)
-    - [ ] Update banner shows `whats new` (modal) and `restart now`; App will restart with latest build
-    - [ ] Update modal shows enhancements / bug fixes in latest build with `Install button`; user can X the banner
-    - [ ] Clicking the build version number copies to clipboard
-    - [ ] Edge case: If build is "old", error message displays warning user to "... manually check for updates".
-      - [ ] Clicking `Check for updates` button produces "read-only volume" error message, with link for help
-    - [ ] Clicking `Check for updates` button timestamps last attempt; periodic autochecking in the background
-      - [ ] If update available, `Install Update` button will quit app and install update
-      - [ ] If update available, download banner is present in main window with `restart` and `what’s new` links
-      - [ ] If checking for update or download latest update in progress, the `Check for updates` button is disabled
-      - [ ] Restarting the app automatically checks for updates
-    - [ ] `Close` button closes modal 
-  - [ ] Preferences/Options (Mac: `⌘,` Windows: `Ctrl+,`)
-    - [ ] Accounts
-      - [ ] GitHub.com name, handle, avatar, `sign out` button, if user signed in
-      - [ ] Enterprise handle, avatar, `sign out` button, if user signed in
-      - [ ] User can sign out of either account
-      - [ ] User can be signed-in to both Enterprise and GitHub.com at same time  
-    - [ ] Integrations
-      - [ ] External Editor options shown in dropdown; else show link to install the default editor
-      - [ ] Shell options shown in dropdown
-    - [ ] Git
-      - [ ] Username and email are displayed if `.gitconfig` configured for Welcome flow
-      - [ ] `Save` button saves any changes made
-      - [ ] `Cancel` button does not save any changes made; modal closed
-    - [ ] Appearance
-      - [ ] Light theme is default
-      - [ ] Dark theme is optional 
-      - [ ] For Mac, users can opt to match system preference theme with checkbox
-    - [ ] Advanced
-      - [ ] Stashing options include "Ask me..", "Always bring my changes...", and "Always stash...". "Ask Me" is default.
-      - [ ] Confirmation dialogue for removing repositories is checked by default; user can toggle
-        - [ ] Verify positive `ConfirmDiscardChanges` value in Dev Tools > Application > Local storage > file://
-      - [ ] Confirmation dialogue for discarding files is checked by default; user can toggle
-        - [ ] Verify positive `ConfirmRepoRemoval` value in Dev Tools > Application > Local storage > file://
-      - [ ] Confirmation dialogue for force pushing files is checked by default; user can toggle
-        - [ ] Verify positive `confirmForcePush` value in Dev Tools > Application > Local storage > file://
-      - [ ] `Save` button saves any changes made
-      - [ ] `Cancel` button does not save any changes made; modal closed
-      - [ ] Shared usage data option; selection carried through from Welcome flow
-        - [ ] `anonymous usage data` link opens https://desktop.github.com/usage-data/
-        - [ ] Verify positive `stats-opt-out` value in Dev Tools > Application > Local storage > file://
-  - [ ] Install command line tool installs tool at `/usr/local/bin/github` (Mac only as Windows done automagically; Helper may require password, else error message)
-    - [ ] If already installed, user sees: "The command line tool has been installed at /usr/local/bin/github"
-    - [ ] Clicking `OK` closes modal
-  - [ ] Quit/Exit Desktop (Mac: `⌘Q`)
-    - [ ] Quitting/Exiting and reopening Desktop returns you to last visited repo
-  - [ ] Menu items are disabled if any modal is present; MacOS-default menu items not applicable   
+### 应用程序
+- [ ] 最小化、最大化和关闭按钮在顶部导航栏中可用
+  - [ ] 如果用户放大应用程序然后退出，重新打开时应保留设置
+- [ ] 双击本地桌面图标会打开应用程序（仅适用于Mac OS）
+- [ ] 双击顶部导航栏可切换全屏/上次使用的屏幕尺寸（仅适用于Mac OS）；退出方式为（Mac：`^⌘f11`；Windows：`Alt`）
+- [ ] 单击Dock/任务栏中的桌面图标可打开应用程序
+- [ ] 在应用程序打开时更改桌面图标名称会导致包错误；如果应用程序关闭然后更改名称成功
 
-### File top-level menu
-  - [ ] New Repository... (Mac: `⌘N`; Windows: `Ctrl+N`)
-  - [ ] Add Local Repository... (Mac: `⌘O`; Windows: `Ctrl+O`)
-  - [ ] Clone Repository... (Mac: `⇧⌘O`; Windows: `Ctrl+Shift+O`)
-  - [ ] Options... (Windows only: `Ctrl+,`)
-  - [ ] Exit (Windows only; quits the app)
+### GitHub Desktop 菜单顶级
+- [ ] 关于GitHub Desktop
+  - [ ] 显示当前版本
+  - [ ] 提供链接到发布说明（模态框）、条款（模态框）、许可证（模态框）
+  - [ ] 更新横幅显示“新功能”（模态框）和“立即重启”；应用程序将使用最新版本重启
+  - [ ] 更新模态框显示最新版本中的增强功能/错误修复以及“安装”按钮；用户可以关闭横幅
+  - [ ] 单击构建版本号将其复制到剪贴板
+  - [ ] 特殊情况：如果版本过旧，会显示错误消息，提示用户“...手动检查更新”。
+    - [ ] 单击“检查更新”按钮会产生“只读卷”错误消息，附带帮助链接
+  - [ ] 单击“检查更新”按钮会时间戳上次尝试；后台定期自动检查更新
+    - [ ] 如果有更新可用，会显示“安装更新”按钮，应用程序将退出并安装更新
+    - [ ] 如果有更新可用，主窗口中会显示下载横幅，附带“重新启动”和“新功能”链接
+    - [ ] 如果正在检查更新或下载最新更新，"检查更新"按钮将被禁用
+    - [ ] 重新启动应用程序会自动检查更新
+- [ ] 首选项/选项（Mac：`⌘,` Windows：`Ctrl+,`)
+  - [ ] 账户
+    - [ ] 显示GitHub.com用户名、句柄、头像，如果用户已登录
+    - [ ] 显示企业句柄、头像，如果用户已登录
+    - [ ] 用户可以注销任一帐户
+    - [ ] 用户可以同时登录企业和GitHub.com
+  - [ ] 集成
+    - [ ] 在下拉菜单中显示外部编辑器选项；否则显示安装默认编辑器的链接
+    - [ ] 在下拉菜单中显示Shell选项
+  - [ ] Git
+    - [ ] 如果`.gitconfig`配置了欢迎流程，将显示用户名和电子邮件
+    - [ ] “保存”按钮保存所做的任何更改
+    - [ ] “取消”按钮不保存所做的任何更改；关闭模态框
+  - [ ] 外观
+    - [ ] 默认情况下使用浅色主题
+    - [ ] 可选的深色主题
+    - [ ] 对于Mac，用户可以选择匹配系统首选项主题的复选框
+  - [ ] 高级
+    - [ ] 隐藏选项包括“询问我..”、“总是携带我的更改...”和“总是存储...”。默认为“询问我”。
+    - [ ] 删除存储库时检查确认对话框已选中；用户可以切换
+      - [ ] 在开发工具 > 应用程序 > 本地存储 > file://中验证`ConfirmDiscardChanges`值
+    - [ ] 丢弃文件时检查确认对话框已选中；用户可以切换
+      - [ ] 在开发工具 > 应用程序 > 本地存储 > file://中验证`ConfirmRepoRemoval`值
+    - [ ] 强制推送文件时检查确认对话框已选中；用户可以切换
+      - [ ] 在开发工具 > 应用程序 > 本地存储 > file://中验证`confirmForcePush`值
+    - [ ] “保存”按钮保存所做的任何更改
+    - [ ] “取消”按钮不保存所做的任何更改；关闭模态框
+    - [ ] 共享使用数据选项；从欢迎流程中传递选择
+      - [ ] “匿名使用数据”链接打开https://desktop.github.com/usage-data/
+      - [ ] 在开发工具 > 应用程序 > 本地存储 > file://中验证`stats-opt-out`值
+- [ ] 安装命令行工具会在`/usr/local/bin/github`上安装工具（仅适用于Mac；Windows会自动完成；助手可能需要密码，否则会显示错误消息）
+  - [ ] 如果已安装，用户会看到：“命令行工具已安装在/usr/local/bin/github”
+  - [ ] 单击“确定”关闭模态框
+- [ ] 退出/关闭桌面（Mac：`⌘Q`）
+  - [ ] 退出/关闭并重新打开桌面将返回到最后访问的存储库
+- [ ] 如果存在任何模态框，则禁用菜单项；不适用于默认的Mac操作系统菜单项
 
-### Edit top-level menu
-  - [ ] Undo (Mac: `⌘Z`; Windows: `Ctrl+Z`)
-  - [ ] Redo (Mac: `⇧⌘Z`; Windows: `Ctrl+Y`)
-  - [ ] Cut (Mac: `⌘X`; Windows: `Ctrl+X`)
-  - [ ] Copy (Mac: `⌘C`; Windows: `Ctrl+C`)
-  - [ ] Paste (Mac: `⌘V`; Windows: `Ctrl+V`)
-  - [ ] Select all (Mac: `⌘A`; Windows: `Ctrl+A`)
+### 文件顶级菜单
+- [ ] 新存储库...（Mac：`⌘N`；Windows：`Ctrl+N`）
+- [ ] 添加本地存储库...（Mac：`⌘O`；Windows：`Ctrl+O`）
+- [ ] 克隆存储库...（Mac：`⇧⌘O`；Windows
 
-### View top-level menu
-  - [ ] Show Changes (Mac: `⌘1`; Windows: `Ctrl+1`)
-  - [ ] Show History (Mac: `⌘2`; Windows: `Ctrl+2`)
-  - [ ] Show Repositories List (Mac: `⌘T`; Windows: `Ctrl+T`)
-  - [ ] Show Branches List (Mac: `⌘B`; Windows: `Ctrl+B`)
-  - [ ] Go to Summary (Mac: `⌘G`; Windows: `Ctrl+G`)
-  - [ ] Show/Hide Stashed Changes (Mac: `^H`; Windows: `Ctrl+H`)
-  - [ ] Enter Full Screen (Mac: `^⌘F`; Windows: `F11`)
-  - [ ] Reset Zoom (Mac: `⌘0`; Windows: `Ctrl+0`)
-  - [ ] Zoom In (Mac: `⌘=`; Windows: `Ctrl+=`)
-  - [ ] Zoom Out (Mac: `⌘-`; Windows: `Ctrl+-`)
-  - [ ] Toggle Developer Tools (Mac: `⌥⌘I`; Windows: `Ctrl+Shift+I`)
+分支顶级菜单
+- [ ] 新建分支...（Mac：`⇧⌘N`；Windows：`Ctrl+Shift+N`）
+  - [ ] 单击“创建分支”会基于输入的名称创建新分支，如果没有重复
+  - [ ] 主分支在列表中提到；当前分支首先显示
+  - [ ] “取消”按钮关闭模态框
+- [ ] 重命名...（不能作为默认分支）
+  - [ ] “重命名”按钮如果字段更新，会更改分支名称
+    - [ ] GitHub.com 上的同一分支不会被重命名
+  - [ ] “取消”按钮关闭模态框
+  - [ ] 受保护的分支不能被重命名
+- [ ] 删除...（不能作为默认分支）
+  - [ ] 选项来删除远程分支；默认未选中
+  - [ ] “删除”按钮删除分支（如果选中选项，则同时删除远程分支）
+  - [ ] “取消”按钮关闭模态框
+  - [ ] 受保护的分支不能被删除
+- [ ] 更新来自[默认分支]（不能作为默认；Mac：`⇧⌘U`；Windows：`Ctrl+Shift+U`）
+  - [ ] 合并成功的横幅会暂时显示；用户可以点击“X”来移除
+- [ ] 与分支比较（Mac：`⇧⌘B`；Windows：`Ctrl+Shift+B`）
+  - [ ] 带您到历史选项卡，并选择输入，以便您可以直接选择一个分支
+- [ ] 合并到当前分支...（Mac：`⇧⌘M`；Windows：`Ctrl+Shift+M`）
+  - [ ] 用户可以筛选以查找现有分支
+  - [ ] 用户可以选择分支，而不是当前分支
+  - [ ] 合并提示显示状态和要合并的分支
+  - [ ] “合并”按钮仅在有内容可以合并时激活（包括等待冲突）
+    - [ ] 如果合并成功，成功的横幅会暂时显示；用户可以点击“X”来移除
+    - [ ] 如果存在冲突，冲突模态框显示文件的数量，具有打开[编辑器]、在命令行中打开、“中止”按钮的能力，而“提交合并”按钮在文件被解决之前被禁用；更改选项卡显示所有文件
+      - [ ] 如果冲突已解决，文件标记为绿色，用户可以点击“提交合并”按钮
+      - [ ] 如果合并成功，成功的横幅会暂时显示；用户可以点击“X”来移除
+      - [ ] 二进制文件必须在提交合并之前在命令行中解决
+      - [ ] 中止部分解决的提交引发“您确定吗？”对话框；“取消”或“中止合并”按钮
+- [ ] 重置当前分支...
+  - [ ] 用户可以筛选以查找现有分支
+  - [ ] 用户可以选择分支，而不是当前分支
+  - [ ] 重置提示显示状态和要合并的分支
+  - [ ] “开始重置”按钮仅在有内容可以重置时激活
+    - [ ] 如果重置，成功的横幅会暂时显示；用户可以点击“X”来移除
+    - [ ] 如果存在冲突，冲突模态框显示文件的数量，具有打开[编辑器]、在命令行中打开、“中止”按钮的能力，而“继续重置”按钮在文件被解决之前被禁用
+      - [ ] 如果冲突已解决，文件标记为绿色，用户可以点击“继续重置”按钮
+      - [ ] 如果已重置，成功的横幅会暂时显示；用户可以点击“X”来移除
+      - [ ] 中止部分解决的重置引发“您确定吗？”对话框；“取消”或“中止重置”按钮
+- [ ] 在GitHub上比较（Mac：`⇧⌘C`；Windows：`Ctrl+Shift+C`）（如果存储库已发布在 `github.com` 上）
+- [ ] 创建拉取请求（Mac：`⌘R`；Windows：`Ctrl+R`）在 `github.com` 上打开拉取请求
+  - [ ] 如果分支未发布，对话框要求发布该分支
+  - [ ] “推送本地更改”模态框显示选项“不推送创建”和“推送提交”；（触发：在推送之前提交分支上的提交后，点击“创建拉取请求”）
+### 顶级窗口菜单（仅适用于Mac）
+- [ ] 最小化、最大化、关闭、将所有窗口置于前台、GitHub桌面
+### 帮助顶级菜单
+- [ ] “报告问题...”在 `github.com` 上的桌面存储库中打开问题提交
+- [ ] “联系GitHub支持...”打开 `https://github.com/contact` 页面，用户和构建预填充
+- [ ] “显示用户指南”打开 `github.com` 上的桌面帮助页面
+- [ ] “显示键盘快捷键”打开 `https://help.github.com/en/desktop/getting-started-with-github-desktop/keyboard-shortcuts-in-github-desktop`
+- [ ] “在Finder/资源管理器中显示日志”打开本地目录中的Finder/资源管理器日志
+  - [ ] Mac：`ls ~/Library/Application\ Support/GitHub\ Desktop/Logs/*.log`
+  - [ ] Windows：%LOCALAPPDATA%\\Desktop\\*.desktop.production.log
+- [ ] 关于GitHub桌面（仅适用于Windows）
+### 下一步
+- [ ] 在任何给定时间最多显示四个建
 
-### Repository top-level menu. (Only enabled if one repo present)
-  - [ ] Push (Mac: `⌘P`; Windows: `Ctrl+P`)
-    - [ ] Commits from repository are pushed to github.com; error message shown if conflicts
-  - [ ] Pull (Mac: `⇧⌘P`; Windows: `Ctrl+Shirt+P`)
-    - [ ] Commits from repository are pulled from github.com; error message shown if conflicts
-  - [ ] Remove
-    - [ ] Repository is removed from Repository List; confirmation dialogue shown if Preferences option enabled
-  - [ ] View on GitHub (Mac: `⌥⌘G`; Windows: `Ctrl+Alt+G`)
-    - [ ] Repository on github.com is opened; must be logged in if private repository or Enterprise repository
-  - [ ] Open in [insert shell] (Mac: `^[tilde-sign]`; Windows: ); see Shell options in preferences
-    - [ ] Local repository is opened
-    - [ ] If git not installed, modal asks to Open with Git or Install Git
-  - [ ] Show in Finder/Explorer (Mac: `⇧⌘F`; Windows: `Ctrl+Shift+F`)
-    - [ ] Local repository is opened
-  - [ ] Open in [insert editor] (Mac: `⇧⌘A`; Windows: `Ctrl+Shift+A`); see External Editor option in preferences
-    - [ ] Secondary modal appears if no Editors set; option to download the default editor
-  - [ ] Repository settings...
-    - [ ] Remote path can be edited for existing repository; origin already set. Cannot be empty string, else error message.
-      - [ ] `Saved` button saves last entry
-      - [ ] `Cancel` button closes modal
-    - [ ] User can opt for `Setup custom remote` for a non-GitHub repository
-      - [ ] `Save & Publish` button saves last entry
-      - [ ] `Cancel` button closes modal
-    - [ ] Ignored Files
-      - [ ] `.gitignore` file contents are shown and can be edited
-	- [ ] `Saved` button saves last entry; changes create a new commit
-	- [ ] `Cancel` button closes modal
+### Diffs 部分（历史选项卡）
+- [ ] 所有提交都有头像，可选 SHA，更改的文件数，提交消息，提交描述（可选）
+  - [ ] 长提交描述可以使用展开/折叠图标切换
+    - [ ] 撤消提交会重新填充提交区域
+      - [ ] 如果没有更改要提交，则显示错误消息
+  - [ ] 在提交中列出所有文件，带有相应的 +/•/-/-> 符号；列表可滚动
+    - [ ] 可查看差异；列表可使用箭头键滚动
+      - [ ] 绿色表示添加，红色表示删除
+      - [ ] 不同文件类型正确呈现
+      - [ ] 带有 `->` 符号的单个图片文件具有多个查看选项：默认的2-up；滑动；洋葱皮；差异
+  - [ ] 面板可以水平调整大小，并且内容会自动调整到全宽
+  - [ ] 差异不能超过3MB
+  - [ ] 差异不能超过500,000个字符
 
-### Branch top-level menu
-  - [ ] New Branch... (Mac: `⇧⌘N`; Windows: `Ctrl+Shift+N`)
-    - [ ] Clicking `Create Branch` makes new branch based on the entered name, if not a duplicate
-    - [ ] Master branch is mentioned in the list; current branch shown first
-    - [ ] `Cancel` button closes modal
-  - [ ] Rename... (cannot be default branch)
-    - [ ] `Rename` button changes branch name if field updated
-      - [ ] Same branch on github.com is not renamed
-    - [ ] `Cancel` button closes modal
-    - [ ] Protected branches cannot be renamed
-  - [ ] Delete... (cannot be default branch)
-    - [ ] Option to delete branch on the remote; default is unchecked
-    - [ ] `Delete` button deletes branch (and remote too if option checked)
-    - [ ] `Cancel` button closes modal
-    - [ ] Protected branches cannot be deleted
-  - [ ] Update from [default branch] (cannot be default; Mac: `⇧⌘U`; Windows: `Ctrl+Shift+U`)
-    - [ ] Merge success banner is shown temporarily; user can `X` to remove
-  - [ ] Compare to Branch (Mac: `⇧⌘B`; Windows: `Ctrl+Shift+B`)
-    - [ ] Takes you to the history tab with the input selected so you can directly choose a branch
-  - [ ] Merge into Current Branch... (Mac: `⇧⌘M`; Windows: `Ctrl+Shift+M`)
-    - [ ] Use can filter to find existing branches
-    - [ ] User can select branch, other than current one
-    - [ ] Merge hint shows status and branches to be merged
-    - [ ] `Merge` button only activated if something to merge (includes awaiting conflicts)
-      - [ ] If merged, success banner is shown temporarily; user can `X` to remove
-      - [ ] If conflicts, conflict modal shows quantity of files, ability to open in [editor], open in command line, `Abort` button, while `Commit merge` button is deactivated until files are resolved; Changes tab shows all files 
-        - [ ] If conflict resolved, files marked green, and user can click `Commit merge` button
-	    - [ ] If merged, success banner is shown temporarily; user can `X` to remove
-	    - [ ] Binary files must be resolved in command line before committing merge
-        - [ ] Aborting partially resolved commit surfaces "Are you sure?" dialogue; `Cancel` or `Abort merge` buttons
-  - [ ] Rebase Current Branch...
-    - [ ] User can filter to find existing branches
-    - [ ] User can select branch, other than current one
-    - [ ] Rebase hint shows status and branches to be merged
-    - [ ] `Start rebase` button only activated if something to rebase
-      - [ ] If rebase, success banner is shown temporarily; user can `X` to remove
-      - [ ] If conflicts, conflict modal shows quantity of files, ability to open in [editor], open in command line, `Abort` button, while `Continue rebase` button is deactivated until files are resolved
-        - [ ] If conflicts resolved, files marked green, and user can click `Continue rebase` button
-	    - [ ] If rebased, success banner is shown temporarily; user can `X` to remove
-        - [ ] Aborting partially resolved rebase surfaces "Are you sure?" dialogue; `Cancel` or `Abort merge` buttons
-  - [ ] Compare on GitHub (Mac: `⇧⌘C`; Windows: `Ctrl+Shift+C`) (if repository already published on `github.com`)
-  - [ ] Create Pull Request (Mac: `⌘R`; Windows: `Ctrl+R`) opens Pull Request on `github.com` 
-    - [ ] If branch unpublished, dialogue asks to publish the branch
-    - [ ] `Push Local Changes` modal surfaces with option to `Create Without Pushing` and `Push Commits`;(trigger: `Create Pull Request` after commit on branch before pushing)
+### 提交部分（更改选项卡）
+- [ ] 如果用户点击“提交到 [分支]”按钮并提供提交消息和至少一个已选文件，则创建提交
+    - [ ] `获取原始` 变为带有提交数量徽章的 `推送`
+  - [ ] 显示用户的头像
+  - [ ] 用户可以在相关存储库中“at-mention”其他用户，可以在摘要或描述字段中实现（仅适用于已发布的存储库）
+  - [ ] 用户可以在摘要或描述字段中“pound-mention”问题，问题编号应填充（仅适用于已发布的存储库）
+  - [ ] 摘要字段是必填的
+  - [ ] 描述字段是可选的
+  - [ ] 用户可以撤销上一次提交
+    - [ ] `推送` 带有提交数量徽章的数量会减少或恢复到 `获取原始`
+  - [ ] 如果用户正在推送提交，则 `撤销` 按钮被禁用
+  - [ ] 用户可以发布一个没有提交的新存储库（也就是未诞生的存储库/分支）
+  - [ ] 用户可以通过在新分支上进行初始提交来将新分支设置为默认分支
+  - [ ] 用户可以逐个选择文件（和文件的各行）进行提交
+  - [ ] 如果用户无法写入克隆的存储库且存在更改，则显示派生消息
+    - [ ] 如果用户选择派生存储库，将显示确认对话框，对话框内捕获错误。
+    - [ ] 单击确认将导致成功创建派生
+  - [ ] 如果分支受保护并存在更改，则显示受保护的分支消息
 
-### Window top-level menu (Mac only)
-  - [ ] Minimize, Zoom (maximize app size), Close, Bring All to Front, GitHub Desktop
+### 合著（更改选项卡）
+- [ ] 单击合著图标可切换合著字段；或在提交区域内右键单击
+    - [ ] 悬停在图标上会显示添加/删除“操作”文本
+    - [ ] 右键单击包括 Mac/Windows 上下文菜单；如果存储库未发布到 github.com，则选项将变灰
+    - [ ] 用户只能在 GitHub.com 用户或企业组织内标记其他用户
+      - [ ] 标签与公共 API 名称/电子邮件相关联；如果启用了用户设置，则电子邮件为“no-reply”
+      - [ ] 鼠标悬停在工具提示上会显示输入的标签的名称和电子邮件
+      - [ ] 标记不在 GitHub 外部的用户将标记为红色
+      - [ ] 不能通过自动完成多次标记用户；但可以手动标记
+      - [ ] 输入不在初始自动完成中的 GitHub 用户名将启动搜索
+        - [ ] 找到的用户名会被标记；其他所有用户名将变为红色
+        - [ ] 离开更改选项卡会清除红色标签
+     - [ ] 切换合著图标会清除字段
+  - [ ] 所有合著者都显示在历史和差异视图中
+    - [ ] 描述字段中带有 `Co-Authored-By: Name <username@github.com>` 的提交会显示用户的头像
+    - [ ] 悬停在头像上会显示所有标记的用户
+    - [ ] 悬停在“people”文本上会显示所有标记用户的名称/电子邮件
+  - [ ] 撤销提交会不会重新启用有效的标签
+  - [ ] 撤销提交不会重新启用任何标签
 
-### Help top-level menu
-  - [ ] `Report Issue...` opens issue filing in Desktop repository on `github.com`
-  - [ ] `Contact GitHub Support...` opens `https://github.com/contact` page with user and build prepopulated
-  - [ ] `Show User Guides` opens Desktop help page on `github.com`
-  - [ ] `Show Keyboard Shortcuts` opens `https://help.github.com/en/desktop/getting-started-with-github-desktop/keyboard-shortcuts-in-github-desktop`
-  - [ ] `Show Logs in Finder/Explorer` opens Finder/Explorer logs in local directory
-    - [ ] Mac: `ls ~/Library/Application\ Support/GitHub\ Desktop/Logs/*.log`
-    - [ ] Windows: `%LOCALAPPDATA%\\Desktop\\*.desktop.production.log`
-  - [ ] About GitHub Desktop (Windows only)
+### 分支列表
+- [ ] 如果存储库存在，则当前分支始终会显示
+    - [ ] 悬停显示工具提示中的完整分支名称
+    - [ ] 长分支名称会被截断，显示分支名称的开头/结尾
+  - [ ] 打开列表以分类格式显示所有分支，并具有工作筛选器
+    - [ ] `新建` 按钮打开“新分支”对话框
+    - [ ] 如果筛选结果为空，如果用户单击“创建新分支”，则在对话框中预填充分支名称
+    - [ ] 活动分支会高亮显示，并标有复选标记
+    - [ ] `esc` 清除筛选器
+    - [ ] 搜索筛选匹配结果以粗体字符显示
+    - [ ] 悬停显示工具提示中的完整分支名称
+    - [ ] 显示“选择要合并到[当前分支]的分支”按钮；（Mac：`⇧⌘M`；Windows：`Ctrl+Shift+M`）
+  - [
+
+ ] 默认分支标记并列出在第一位，带有时间戳
+  - [ ] 选择一个分支会切换分支
+  - [ ] 创建新分支会显示“发布分支”按钮
+    - [ ] 仅在登录时才能成功发布；否则显示错误消息
+      - [ ] 如果分支尚未发布，`创建拉取请求` 菜单选项显示警告
+  - [ ] 如果已登录，分支更名会在 github.com 上更新，反之亦然；否则显示错误消息
+    - [ ] 打开对话框以输入新名称的能力
+  - [ ] 如果已登录，分支删除会在 github.com 上更新，反之亦然；否则显示错误消息
+    - [ ] 删除分支显示警告消息
+
+### 获取原始/拉取
+- [ ] 代码会不断从 github.com 获取，并显示时间戳
+     - [ ] 悬停显示工具提示中的时间戳
+    - [ ] 如果 github.com 上有拉取请求，会显示向下箭头和数量
+    - [ ] 拉取请求和提交可以共存；如果存在合并提交，则会出现错误
+  - [ ] 用户必须登录才能推送/拉取，显示错误消息
+    - [ ] 推送/拉取适用于公共/私有/企业存储库
+    - [ ] 如果鼠标悬停在上面，工具提示会显示状态，如果有进度则显示状态
+  - [ ] 当分支仅在本地时，确保“获取”按钮更改为“发布”并进行发布
   
-### Next Steps
- - [ ] Up to four suggested steps are shown at any given time, contingent on the state of the repository and/or branch
-   - [ ] First step is not always shown, and it can be `View Stash`, `Pull Origin`, `Pull Origin`, `Create Pull Request`, `Publish Repository`
-   - [ ] Other steps are `Open in [editor]` with Preferences/Options link, `Show in [Finder/Explorer]` and `View in GitHub`
+### 仅发布
+- [ ] 未发布存储库，未诞生的 HEAD - 启用“发布”按钮（用户可以发布存储库）
+- [ ] 未发布存储库，有效分支 - 启用“发布”按钮（用户可以发布存储库和分支）
+- [ ] 已发布存储库，未诞生 HEAD - 禁用“发布”按钮（没有分支可推送）
+- [ ] 已发布存储库，没有跟踪的分支 - 启用“发布”按钮（用户可以发布分支）
+- [ ] 已发布存储库，网络操作 - 禁用“发布”按钮（不要干扰现有操作）
 
-### Repositories list
-  - [ ] Current repository is always shown in top slot with respective icon; if repository exists
-  - [ ] Opening list shows all repositories, categorized by owner in alpha format with a working filter
-    - [ ] If more than six repositories, a Recent group will appear at the top of the list; limit 3 repositories
-    - [ ] `ESC` clears the filter
-    - [ ] Search filter match results in bold characters
-    - [ ] A repository with uncommitted files shows a `•` next to name
-    - [ ] All repositories (private, enterprise, local, public, forked, other) have proper icon and found in the proper category (GitHub.com/Enterprise/Other)
-      - [ ] Hover shows username/repository, url, and/or local path in tooltip
-      - [ ] User must have paid account for private repositories
-      - [ ] Repository icon is updated if admin changes status (public vs private)
-  - [ ] `Add` button dropdown shows three options: Clone Repository, Add Existing Repository, Create New Repository    
-  - [ ] Repositories cloned from non-github servers should always be in the Other group, and have the 'computer' icon.
-  - [ ] Selecting a repository updates Changes/History/Diff areas
-    - [ ] If no Changes, Diff area shows `Open this repository` link to Finder/Explorer on local
-  - [ ] `Right-click` reveals `Open in [Shell]`, `Open in Finder/Explorer`, `Open in [Editor]`, and `Remove` options
-  - [ ] Repositories which have been removed locally (and trash emptied) have 'cannot find repository' warning
-    - [ ] Relaunching the app when it displays a missing repository preserves the repository's name and last seen path
-    - [ ] Remove a repository which can not be found (deleted locally & trash emptied)
-  - [ ] Repositories which are cloning display a progress bar
-
-### Changes tab
-  - [ ] Changes tab shows `•` icon if files are waiting to be committed
-    - [ ] Number of changed files is always present; it can be 0
-  - [ ] Any changed files appear in the list, with respective +/•/- sign; with arrow keys enabled
-    - [ ] Merge-conflicted files shown with hazard icon; cannot be committed until fixed
-    - [ ] User can check none, or check one or more files to commit; list is scrollable
-      - [ ] User can select one or more lines to commit; diff is scrollable
-      - [ ] Right-clicking opens context menu
-        - [ ] User can discard the file (or all files); pending confirmation dialogue
-	  - [ ] `Do not show this message again`overrides the preference setting if true  
-        - [ ] User can ignore single/all files, show in Finder/Explorer, reveal in external editor, or open in default program
-	  - [ ] A specific file can only be ignored once
-	  - [ ] All ignored files found in Repository Settings > Ignored Files tab
-	- [ ] User can open in finder, preferred editor, or OS default program  
-  - [ ] Panes can be resized horizontally, and contents resize to take the full width
-    - [ ] Quitting Desktop and relaunching remembers pane sizes
-  - [ ] Uncommitted files are optionally stashed if user attempts to switch branches; depends on Preferences.
-    - [ ] Modal asks user to stash on current branch or bring changes to new branch; `Cancel` or `Switch Branch` buttons
-      - [ ] If stashed then changes shown under Stashed Changes section below Changes tab when returning to the original branch
-        - [ ] Stashed changes section show all stashed files and diffs; user can discard or restore to Changes
-      - [ ] If moved to new branch, all previously changed files will exist under Changes tab on the new branch
-
-### History tab
-  - [ ] History tab shows commits on your current branch by default
-    - [ ] All commits listed in chronological order, with avatar, date and name; list is scrollable with arrow keys enabled
-      - [ ] Right clicking any commit shows options: Revert This Commit, Copy SHA, View on GitHub
-      - [ ] Hover shows file name in tooltip
-    - [ ] Placing cursor in search field show all branches with number of commits behind/ahead; list is alpha and categorized
-      - [ ] Filtering for branch name that doesn't exist shows "Sorry, I can't find that branch"
-    - [ ] User can search to a target branch to filter commits; `esc` key to exit; autocomplete and text prediction intact
-      - [ ] User can toggle between behind/ahead, with counts shown; Behind tab is shown by default
-          - [ ] If more than 0 commits behind, a list of commits are shown in reverse chronological order
-          - [ ] If more than 0 commits ahead, a list of commits are shown in reverse chronological order
-      - [ ] User can merge in any commits into current branch for the "behind" tab; (button disabled if 0 commits behind)
-        - [ ] Merge hint shown below `Merge into X` button with status, numbers of commits, and branch names
-        - [ ] After successful merge, tab counts update and merge button is disabled
-        - [ ] Merge conflict results in dialog shown directing user to commit view
-    - [ ] Merge prompt shown above filter if comparing two branches and commits are behind default branch
-      - [ ] `View commits` shows commits in Changes list, `Merge... opens Merge in Current Branch modal`, or `X` to close
-	
-### Diffs section (History tab)		
-  - [ ] All commits have avatar, selectable SHA, # of files changed, commit message, commit description (optional)
-    - [ ] Long commit descriptions can be toggled with expand/collapse icon
-      - [ ] Reverting commit repopulates commit area
-        - [ ] Error message if no changes to commit
-  - [ ] All files within a commit listed, with respective +/•/-/-> sign; list is scrollable
-    - [ ] Diffs are viewable; list is scrollable with arrow keys enabled
-      - [ ] Green is for additions, red for deletions
-      - [ ] Different file types are rendered properly
-      - [ ] Single pic file with the `->` sign has multiple view options: 2-up (default); Swipe; Onion Skin; and Difference
-  - [ ] Panes can be resized horizontally, and contents resize to take the full width
-  - [ ] Diffs cannot be over 3MB
-  - [ ] Diffs cannot be longer than 500,000 characters 
-
-### Commit section (Changes tab)
-  - [ ] Commit created if user clicks `Commit to [branch]` button with commit message and at least one checked file
-    - [ ] `Fetch origin` changes to `Push` with number of commits badge
-  - [ ] Avatar of user is shown
-  - [ ] User can 'at-mention' those associated with the respective repository; either summary or description field is ok (published repositories only)
-  - [ ] User can 'pound-mention' an issue in the either summary or description field; issue number should populate (published repositories only)
-  - [ ] Summary field is required
-  - [ ] Description field is optional
-  - [ ] User can undo last commit
-    - [ ] `Push` with number of commits badge is decremented or reverts to `Fetch origin`
-  - [ ] `Undo` button disabled if user is pushing commit
-  - [ ] User can publish a new repository with no commits (aka unborn repository/branch)
-  - [ ] User can make new branch the default branch, by making the initial commit on the new branch
-  - [ ] User can select individual file(s) -- and individual lines of a file(s) -- to commit at a time
-  - [ ] Forked messaging shown if user cannot write to cloned repository and there are changes
-    - [ ] If user opts to fork the repository, a confirmation dialogue surfaced. Errors caught within the dialogue.
-    - [ ] Clicking confirm results in successful fork creation
-  - [ ] Protected branches messaging shown if branch is protected and there are changes
-  
-### Co-authoring (Changes tab)
-  - [ ] clicking co-author icon toggles co-author field; or right-click within commit area
-    - [ ] Hovering over the icon reveals add/remove 'action' text
-    - [ ] Right-click includes Mac/Windows context menus; option greyed out if repo not published to github.com
-    - [ ] User can tag other GitHub.com users only, or those within your Enterprise org
-      - [ ] Tag is tied to public API name/email; email is "no-reply" if user setting is enabled
-      - [ ] Mouseover tooltip reveals name and email of any entered tags
-      - [ ] Tagging those outside of GitHub turns tag red
-      - [ ] You cannot tag a user more than once via the autocomplete; manually you can
-      - [ ] Typing a GitHub name not part of the initial autocomplete will initiate a search
-        - [ ] Found names are tagged; all others are turned red
-        - [ ] Navigating away from the Changes tab will clear red tags 
-     - [ ] Toggling the co-author icon clears the field
-  - [ ] All co-authors show up in History and diff view
-    - [ ] Commits with `Co-Authored-By: Name <username@github.com>`in the description field reveal avatar of user    
-    - [ ] Hovering over an avatar reveals all tagged users
-    - [ ] Hovering over the "people" text reveals all names/emails of tagged users
-  - [ ] Undoing a commit re-enables the valid tags
-  - [ ] Reverting a commit does not re-enable any tags
-
-### Branches list
-  - [ ] Current branch always shows if repository present
-    - [ ] Hover shows full branch name in tooltip
-    - [ ] Long branch names are truncated, with beginning/end of branch name shown
-  - [ ] Opening list shows all branches in categorized format with a working filter
-    - [ ] `New` button opens 'New Branch' modal
-    - [ ] If filters results are nil, then prefill branch name in modal if user clicks `Create New Branch`
-    - [ ] Active branch is highlighted and marked with a check
-    - [ ] `esc` clears the filter
-    - [ ] Search filter match results in bold characters
-    - [ ] Hover shows full branch name in tooltip
-    - [ ] `Choose a branch to merge into [current branch]` button is shown; (Mac: `⇧⌘M`; Windows: `Ctrl+Shift+M`)
-  - [ ] Default branch labeled and listed first, with timestamp
-  - [ ] Selecting a branch switches branches
-  - [ ] Creating a new branch shows `Publish branch` button
-    - [ ] Publishing successful if logged in only; else error message
-      - [ ] `Create Pull Request` menu option shows warning if branch not published yet
-  - [ ] Renamed branches updated on github.com and vice-versa if logged in; else error message
-    - [ ] Opens modal with ability to enter new name
-  - [ ] Deleted branches updated on github.com and vice-versa if logged in; else error message
-    - [ ] Deleting branch show warning message
-
-### Fetching origin/Pull
-  - [ ] Code is constantly being fetched from github.com with timestamp
-     - [ ] Hover shows timestamp in tooltip
-    - [ ] If Pull Requests on github.com, they are reflected with down arrow and quantity
-    - [ ] Pull Requests and Commits can co-exist; error surfaces if merge commit
-  - [ ] User cannot Push/Pull without being signed-in; error message surfaced
-    - [ ] Push/Pull works with public/private/Enterprise repos
-    - [ ] Tooltip shows status upon hover, if progress to display
-  - [ ] When a branch is local-only make sure that the `Fetch` button changes to `Publish` and it publishes
-  
-### Publishing only
-  - [ ] Unpublished repository, unborn HEAD - `Publish button` enabled (user can publish repository)
-  - [ ] Unpublished repository, valid branch - `Publish button` enabled (user can publish repository and branch)
-  - [ ] Published repository, unborn HEAD - `Publish button` disabled (no branch to push)
-  - [ ] Published repository, branch without tracking - `Publish button` enabled (user can publish branch)
-  - [ ] Published repository, network action - `Publish button` disabled (don't interfere with existing action)
-  
 ### Github.com
-  - [ ] If Desktop linked to .com (/settings/applications), the Desktop icon should show on File Revisions tab for all Pull Requests
-    - [ ] Clicking the "computer icon" opens from a Pull Request page opens the branch on Desktop
-  - [ ] `Open in Desktop` button under a repo's `Clone and Download` button should open repo in Desktop
-  - [ ] If private email is enabled (http://github.com/settings/emails), user is blocked from pushing to all associated repositories on Desktop?
-  - [ ] If user updates name in Settings, change should reflect in Preferences
+- [ ] 如果 Desktop 链接到 .com（/settings/applications），则文件修订选项卡上的 Desktop 图标应显示在所有拉取请求的页面上
+    - [ ] 单击“计算机图标”会从拉取请求页面上打开分支
+  - [ ] 存储库的“克隆和下载”按钮下的“在 Desktop 中打开”按钮应在 Desktop 中打开存储库
+  - [ ] 如果启用了私人电子邮件（http://github.com/settings/emails），用户将被阻止将更改推送到 Desktop 上的所有关联存储库？
+  - [ ] 如果用户在设置中更新了姓名，更改应在首选项中反映出来
 
-### Pull Request list + Continuous Integration (CI) status
- - [ ] Pull request list shown as tab on Branch list; quality shown in tab
-   - [ ] Only open Pull Requests are reflected; closed Pull Requests are not shown in the list
- - [ ] Pull Request toolbar status is surfaced with yellow/green/red icon, or no icon if no status
- - [ ] If no pull requests, then no badge shown, and Pull Request tab shows `0` 
-   - [ ] User shown current branch in text area, and given option to create a new branch or create new pull request
- - [ ] Pull request for the current branch selected by default, with pull-request-number badge in header
-   - [ ] Pull request list can be filtered; `esc` key clears filter; arrow keys can scroll list
-   - [ ] Results in chronological order, with name, id number, date, username, and CI status (if enabled)
-     - [ ] Status checks run frequently in background, especially if yellow
-     - [ ] If user hovers over CI status icons, tooltips show individual/group status details
- - [ ] Pull Request status in the list can be updated independently of respective Pull Request being viewed (background job)
- - [ ] Show link to upstream pull requests in pull request list of a fork if PR for current branch is in upstream repo
- - [ ] Show link to create a pull request if there is no PR for current branch
- 
-### Security
- - [ ] `Untrusted server` warning surfaced if GitHub cannot verify the identity of `api.github.com`; user can `Cancel` or `Continue`
+### 拉取请求列表 + 持续集成（CI）状态
+- [ ] 拉取请求列表显示在分支列表的选项卡上；选项卡中显示质量
+   - [ ] 只显示打开的拉取请求；已关闭的拉取请求不会显示在列表中
+ - [ ] 拉取请求工具栏状态以黄色/绿色/红色图标或没有图标的方式显示，如果没有状态则不显示图标
+ - [ ] 如果没有拉取请求，则不显示徽章，拉取请求选项卡显示“0”
+   - [ ] 用户会在文本区域中看到当前分支，并有选择创建新分支或创建新拉取请求的选项
+ - [ ] 默认情况下选择当前分支的拉取请求，并在标题中显示拉取请求编号徽章
+   - [ ] 可筛选拉取请求列表；`esc` 键清除筛选器；箭头键可滚动列表
+   - [ ] 结果按时间顺序显示，包括名称、ID 编号、日期、用户名和 CI 状态（如果启用）
+     - [ ] 状态检查会频繁在后台运行，尤其是如果是黄色状态
+     - [ ] 如果用户悬停在 CI 状态图标上，工具提示会显示个人/组状态详情
+ - [ ] 列表中的拉取请求状态可以独立于查看的相应拉取请求进行更新（后台作业）
+ - [ ] 如果当前分支的上游存储库中存在拉取请求，则在分支的拉取请求列表中显示链接
+ - [ ] 如果当前分支没有拉取请求，则显示创建拉取请求的链接
