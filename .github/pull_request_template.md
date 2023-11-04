@@ -1,26 +1,26 @@
 <!--
-What GitHub Desktop issue does this PR address? (for example, #1234)
+这个 PR 解决了 GitHub Desktop 中的哪个问题？（例如，#1234）
 -->
 
-Closes #[issue number]
+关闭 #[问题编号]
 
-## Description
+## 描述
 <!--
-A summary of the changes made along with any other information that would be helpful to a reviewer such as potential tradeoffs or alternative approaches you considered.
+对所做更改的摘要，以及对审阅者有帮助的任何其他信息，如可能的权衡或您考虑的替代方法。
 -->
 -
 
-### Screenshots
+### 截图
 
 <!--
-If this PR touches the UI layer of the app, please include screenshots or animated gifs to show the changes.
+如果这个 PR 涉及应用程序的 UI 层，请包括截图或动画 GIF 来展示更改。
 -->
 
-## Release notes
+## 发布说明
 
 <!--
-You can leave this blank if you're not sure.
-If you don't believe this PR needs to be mentioned in the release notes, write "Notes: no-notes".
+如果您不确定，可以留空。
+如果您认为不需要在发布说明中提及这个 PR，请写下 "Notes: no-notes"。
 -->
 
 Notes:
