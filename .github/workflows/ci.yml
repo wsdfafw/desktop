@@ -1,32 +1,33 @@
-name: CI
+name: CI  # 工作流的名称
 
 on:
-  push:
+  push:  # 当有代码推送时触发工作流
     branches:
-      - development
-      - zh
-  pull_request:
-  workflow_call:
+      - development  # 仅当推送到"development"分支时触发
+      - zh  # 仅当推送到"zh"分支时触发
+  pull_request:  # 当有拉取请求时触发工作流
+  workflow_call:  # 当另一个工作流通过workflow_call触发时
     inputs:
       repository:
-        default: wsdfafw/desktop
-        required: false
-        type: string
+        default: wsdfafw/desktop  # 仓库名称（默认值为"wsdfafw/desktop"）
+        required: false  # 不是必需的
+        type: string  # 数据类型为字符串
       ref:
-        required: true
-        type: string
+        required: true  # 必需的
+        type: string  # 数据类型为字符串
       upload-artifacts:
-        default: false
-        required: false
-        type: boolean
+        default: false  # 默认值为false
+        required: false  # 不是必需的
+        type: boolean  # 数据类型为布尔值
       environment:
-        type: string
-        required: true
+        type: string  # 数据类型为字符串
+        required: true  # 必需的
       sign:
-        type: boolean
-        default: true
-        required: false
-    secrets:
+        type: boolean  # 数据类型为布尔值
+        default: true  # 默认值为true
+        required: false  # 不是必需的
+
+    secrets:  # 工作流的机密信息
       AZURE_CODE_SIGNING_TENANT_ID:
       AZURE_CODE_SIGNING_CLIENT_ID:
       AZURE_CODE_SIGNING_CLIENT_SECRET:
@@ -39,71 +40,78 @@ on:
       APPLE_APPLICATION_CERT_PASSWORD:
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
+  lint:  # 工作流中的一个任务，用于代码检查
+    name: Lint  # 任务的名称
+    runs-on: ubuntu-latest  # 在最新的Ubuntu系统上运行任务
     env:
-      RELEASE_CHANNEL: ${{ inputs.environment }}
-    steps:
-      - uses: actions/checkout@v4
+      RELEASE_CHANNEL: ${{ inputs.environment }}  # 设置环境变量RELEASE_CHANNEL，取自输入的environment
+
+    steps:  # 任务的具体步骤
+      - uses: actions/checkout@v4  # 使用GitHub提供的Action来检出代码
         with:
-          repository: ${{ inputs.repository || github.repository }}
-          ref: ${{ inputs.ref }}
-          submodules: recursive
-      - uses: actions/setup-node@v4
+          repository: ${{ inputs.repository || github.repository }}  # 检出指定仓库，默认使用GitHub仓库
+          ref: ${{ inputs.ref }}  # 检出指定引用
+          submodules: recursive  # 递归检出子模块
+      - uses: actions/setup-node@v4  # 使用Node.js的Action
         with:
-          node-version: 16.17.1
-          cache: yarn
-      - run: yarn
-      - run: yarn validate-electron-version
-      - run: yarn lint
-      - run: yarn validate-changelog
-      - name: Ensure a clean working directory
-        run: git diff --name-status --exit-code
-  build:
-    name: ${{ matrix.friendlyName }} ${{ matrix.arch }}
-    runs-on: ${{ matrix.os }}
+          node-version: 16.17.1  # 安装Node.js版本
+          cache: yarn  # 缓存Yarn依赖
+      - run: yarn  # 运行"yarn"命令
+      - run: yarn validate-electron-version  # 运行验证Electron版本的命令
+      - run: yarn lint  # 运行代码检查命令
+      - run: yarn validate-changelog  # 运行验证变更日志的命令
+      - name: Ensure a clean working directory  # 步骤的名称
+        run: git diff --name-status --exit-code  # 检查工作目录是否干净
+
+  build:  # 工作流中的另一个任务，用于构建
+    name: ${{ matrix.friendlyName }} ${{ matrix.arch }}  # 任务名称，使用矩阵中的变量
+
+    runs-on: ${{ matrix.os }}  # 在矩阵中指定的操作系统上运行任务
     permissions:
-      contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        node: [18.16.1]
-        os: [windows-2019]
-        arch: [x64, arm64]
+      contents: read  # 为任务指定权限（只读）
+
+    strategy:  # 任务的执行策略
+      fail-fast: false  # 不立即中断整个工作流
+      matrix:  # 定义矩阵
+        node: [18.16.1]  # Node.js版本
+        os: [windows-2019]  # 操作系统
+        arch: [x64, arm64]  # 架构
         include:
-          - os: windows-2019
-            friendlyName: Windows
-    timeout-minutes: 60
+          - os: windows-2019  # 包括Windows操作系统
+            friendlyName: Windows  # Windows的友好名称
+
+    timeout-minutes: 60  # 设置任务的超时时间为60分钟
+
     env:
-      RELEASE_CHANNEL: ${{ inputs.environment }}
-    steps:
-      - uses: actions/checkout@v4
+      RELEASE_CHANNEL: ${{ inputs.environment }}  # 设置环境变量RELEASE_CHANNEL，取自输入的environment
+
+    steps:  # 任务的具体步骤
+      - uses: actions/checkout@v4  # 使用GitHub提供的Action来检出代码
         with:
-          repository: ${{ inputs.repository || github.repository }}
-          ref: ${{ inputs.ref }}
-          submodules: recursive
-      - uses: actions/setup-python@v4
+          repository: ${{ inputs.repository || github.repository }}  # 检出指定仓库，默认使用GitHub仓库
+          ref: ${{ inputs.ref }}  # 检出指定引用
+          submodules: recursive  # 递归检出子模块
+      - uses: actions/setup-python@v4  # 使用Python的Action
         with:
-          python-version: '3.11'
-      - name: Use Node.js ${{ matrix.node }}
+          python-version: '3.11'  # 安装Python 3.11
+      - name: Use Node.js ${{ matrix.node }}  # 设置Node.js版本
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
 
-      # This step can be removed as soon as official Windows arm64 builds are published:
+      # 此步骤可以在官方发布Windows arm64构建后删除：
       # https://github.com/nodejs/build/issues/2450#issuecomment-705853342
       - name: Get NodeJS node-gyp lib for Windows arm64
         if: ${{ matrix.os == 'windows-2019' && matrix.arch == 'arm64' }}
         run: .\script\download-nodejs-win-arm64.ps1 ${{ matrix.node }}
 
-      - name: Install and build dependencies
+      - name: Install and build dependencies  # 安装和构建依赖
         run: yarn
         env:
           npm_config_arch: ${{ matrix.arch }}
           TARGET_ARCH: ${{ matrix.arch }}
-      - name: Build production app
+      - name: Build production app  # 构建生产应用
         run: yarn build:prod
         env:
           DESKTOP_OAUTH_CLIENT_ID: ${{ secrets.DESKTOP_OAUTH_CLIENT_ID }}
@@ -116,42 +124,42 @@ jobs:
           KEY_PASSWORD: ${{ secrets.APPLE_APPLICATION_CERT_PASSWORD }}
           npm_config_arch: ${{ matrix.arch }}
           TARGET_ARCH: ${{ matrix.arch }}
-      - name: Prepare testing environment
+      - name: Prepare testing environment  # 准备测试环境
         if: matrix.arch == 'x64'
         run: yarn test:setup
         env:
           npm_config_arch: ${{ matrix.arch }}
-      - name: Run unit tests
+      - name: Run unit tests  # 运行单元测试
         if: matrix.arch == 'x64'
         run: yarn test:unit
-      - name: Run script tests
+      - name: Run script tests  # 运行脚本测试
         if: matrix.arch == 'x64'
         run: yarn test:script
-      - name: Install Azure Code Signing Client
+      - name: Install Azure Code Signing Client  # 安装Azure代码签名客户端
         if: ${{ runner.os == 'Windows' && inputs.sign }}
         run: |
           $acsZip = Join-Path $env:RUNNER_TEMP "acs.zip"
           $acsDir = Join-Path $env:RUNNER_TEMP "acs"
           Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Azure.CodeSigning.Client/1.0.38 -OutFile $acsZip -Verbose
           Expand-Archive $acsZip -Destination $acsDir -Force -Verbose
-          # Replace ancient signtool in electron-winstall with one that supports ACS
+          # 替换electron-winstaller中的古老signtool以支持ACS
           Copy-Item -Path "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\*" -Include signtool.exe,signtool.exe.manifest,Microsoft.Windows.Build.Signing.mssign32.dll.manifest,mssign32.dll,Microsoft.Windows.Build.Signing.wintrust.dll.manifest,wintrust.dll,Microsoft.Windows.Build.Appx.AppxSip.dll.manifest,AppxSip.dll,Microsoft.Windows.Build.Appx.AppxPackaging.dll.manifest,AppxPackaging.dll,Microsoft.Windows.Build.Appx.OpcServices.dll.manifest,OpcServices.dll -Destination "node_modules\electron-winstaller\vendor" -Verbose
-      - name: Package production app
+      - name: Package production app  # 打包生产应用
         run: yarn package
         env:
           npm_config_arch: ${{ matrix.arch }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_CODE_SIGNING_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CODE_SIGNING_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CODE_SIGNING_CLIENT_SECRET }}
-      - name: Upload artifacts
+      - name: Upload artifacts  # 上传构建产物
         uses: actions/upload-artifact@v3
         if: ${{ inputs.upload-artifacts }}
         with:
-          name: ${{matrix.friendlyName}}-${{matrix.arch}}
+          name: ${{matrix.friendlyName}}-${{matrix.arch}}  # 上传的产物名称
           path: |
             dist/GitHub Desktop-${{matrix.arch}}.zip
             dist/GitHubDesktop-*.nupkg
             dist/GitHubDesktopSetup-${{matrix.arch}}.exe
             dist/GitHubDesktopSetup-${{matrix.arch}}.msi
             dist/bundle-size.json
-          if-no-files-found: error
+          if-no-files-found: error  # 如果找不到文件则报错
