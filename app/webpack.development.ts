@@ -27,7 +27,7 @@ const getPortOrDefault = () => {
   if (port != null) {
     const result = parseInt(port)
     if (isNaN(result)) {
-      throw an Error(`无法将 '${port}' 解析为有效的数字`)
+      throw new Error(`无法将 '${port}' 解析为有效的数字`)
     }
     return result
   }
