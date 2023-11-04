@@ -345,7 +345,7 @@ export class CommitMessage extends React.Component<
       this.props.mostRecentLocalCommit !== null
     ) {
       this.setState({
-        isCommittingStatusMessage: `Committed Just now - ${this.props.mostRecentLocalCommit.summary} (Sha: ${this.props.mostRecentLocalCommit.shortSha})`,
+        isCommittingStatusMessage: `刚刚提交 - ${this.props.mostRecentLocalCommit.summary}（SHA: ${this.props.mostRecentLocalCommit.shortSha}）`,
       })
     }
 
@@ -1127,8 +1127,8 @@ export class CommitMessage extends React.Component<
     }
 
     const header = __DARWIN__
-      ? 'Commit Message Rule Failures'
-      : 'Commit message rule failures'
+      ? '提交消息规则失败'
+      : '提交消息规则失败';
     return (
       <Popover
         anchor={this.summaryTextInput}
@@ -1145,7 +1145,7 @@ export class CommitMessage extends React.Component<
           repository={repository.gitHubRepository}
           branch={branch}
           failures={this.state.repoRuleCommitMessageFailures}
-          leadingText="This commit message"
+          leadingText="此提交消息"
         />
       </Popover>
     )
@@ -1168,8 +1168,8 @@ export class CommitMessage extends React.Component<
   private getButtonVerb() {
     const { isCommitting, commitToAmend } = this.props
 
-    const amendVerb = isCommitting ? 'Amending' : 'Amend'
-    const commitVerb = isCommitting ? 'Committing' : 'Commit'
+    const amendVerb = isCommitting ? '正在修订' : '修订'
+    const commitVerb = isCommitting ? '正在提交' : '提交'
     const isAmending = commitToAmend !== null
 
     return isAmending ? amendVerb : commitVerb
@@ -1232,11 +1232,11 @@ export class CommitMessage extends React.Component<
 
     const isSummaryBlank = isEmptyOrWhitespace(this.summaryOrPlaceholder)
     if (isSummaryBlank) {
-      return `A commit summary is required to commit`
+      return `需要填写提交摘要才能提交`
     } else if (!this.props.anyFilesSelected && this.props.anyFilesAvailable) {
-      return `Select one or more files to commit`
+      return `请选择一个或多个文件以进行提交`
     } else if (this.props.isCommitting) {
-      return `Committing changes…`
+      return `正在提交更改...`
     }
 
     return undefined
@@ -1275,20 +1275,20 @@ export class CommitMessage extends React.Component<
         tooltip={
           <>
             <div className="title">
-              Great commit summaries contain fewer than 50 characters
+              优秀的提交摘要应少于50个字符
             </div>
             <div className="description">
-              Place extra information in the description field.
+              额外信息可在描述字段中添加
             </div>
           </>
         }
         ariaLiveMessage={
-          'Great commit summaries contain fewer than 50 characters. Place extra information in the description field.'
+          '优秀的提交摘要应少于50个字符。额外信息可在描述字段中添加。'
         }
         direction={TooltipDirection.NORTH}
         className="length-hint"
         tooltipClassName="length-hint-tooltip"
-        ariaLabel="Open Summary Length Info"
+        ariaLabel="打开摘要长度信息"
       >
         <Octicon symbol={OcticonSymbol.lightBulb} />
       </ToggledtippedContent>
