@@ -546,12 +546,12 @@ export class ChangesList extends React.Component<
     }
 
     if (selectedFileIDs.includes(id)) {
-      // user has selected a file inside an existing selection
-      // -> context menu entries should be applied to all selected files
+      // 用户已选择现有选择内的文件
+      // -> 上下文菜单条目应应用于所有选定的文件
       selectedFileIDs.forEach(addItemToArray)
     } else {
-      // this is outside their previous selection
-      // -> context menu entries should be applied to just this file
+      // 这位用户选择的是之前未选择的文件
+      // -> 上下文菜单条目应仅应用于此文件
       addItemToArray(id)
     }
 
@@ -562,36 +562,34 @@ export class ChangesList extends React.Component<
     if (paths.length === 1) {
       items.push({
         label: __DARWIN__
-          ? 'Ignore File (Add to .gitignore)'
-          : 'Ignore file (add to .gitignore)',
+          ? '忽略文件（添加到.gitignore）'
+          : '忽略文件（添加到.gitignore）',
         action: () => this.props.onIgnoreFile(path),
         enabled: Path.basename(path) !== GitIgnoreFileName,
       })
     } else if (paths.length > 1) {
       items.push({
         label: __DARWIN__
-          ? `Ignore ${paths.length} Selected Files (Add to .gitignore)`
-          : `Ignore ${paths.length} selected files (add to .gitignore)`,
+          ? `忽略 ${paths.length} 个所选文件（添加到.gitignore）`
+          : `忽略 ${paths.length} 个所选文件（添加到.gitignore）`,
         action: () => {
-          // Filter out any .gitignores that happens to be selected, ignoring
-          // those doesn't make sense.
+          // 过滤掉任何已选择的.gitignore文件，忽略这些文件没有意义。
           this.props.onIgnoreFile(
             paths.filter(path => Path.basename(path) !== GitIgnoreFileName)
           )
         },
-        // Enable this action as long as there's something selected which isn't
-        // a .gitignore file.
+        // 只要选择了一些不是.gitignore文件的东西，就启用此操作。
         enabled: paths.some(path => Path.basename(path) !== GitIgnoreFileName),
       })
     }
-    // Five menu items should be enough for everyone
+    // 五个菜单项对于大多数情况应该足够了
     Array.from(extensions)
       .slice(0, 5)
       .forEach(extension => {
         items.push({
           label: __DARWIN__
-            ? `Ignore All ${extension} Files (Add to .gitignore)`
-            : `Ignore all ${extension} files (add to .gitignore)`,
+            ? `忽略所有 ${extension} 文件（添加到.gitignore）`
+            : `忽略所有 ${extension} 文件（添加到.gitignore）`,
           action: () => this.props.onIgnorePattern(`*${extension}`),
         })
       })
@@ -601,8 +599,8 @@ export class ChangesList extends React.Component<
         { type: 'separator' },
         {
           label: __DARWIN__
-            ? 'Include Selected Files'
-            : 'Include selected files',
+            ? '包含所选文件'
+            : '包含所选文件',
           action: () => {
             selectedFiles.map(file =>
               this.props.onIncludeChanged(file.path, true)
@@ -611,8 +609,8 @@ export class ChangesList extends React.Component<
         },
         {
           label: __DARWIN__
-            ? 'Exclude Selected Files'
-            : 'Exclude selected files',
+            ? '排除所选文件'
+            : '排除所选文件',
           action: () => {
             selectedFiles.map(file =>
               this.props.onIncludeChanged(file.path, false)

@@ -662,25 +662,23 @@ export class NoChanges extends React.Component<
   private renderCreatePullRequestAction(tip: IValidBranch) {
     const createMenuItem = this.getMenuItemInfo('create-pull-request')
     if (createMenuItem === undefined) {
-      log.error(`Could not find matching menu item for 'create-pull-request'`)
+      log.error(`未找到与 'create-pull-request' 相匹配的菜单项`)
       return null
     }
 
     const description = (
       <>
-        The current branch (<Ref>{tip.branch.name}</Ref>) is already published
-        to GitHub. Create a pull request to propose and collaborate on your
-        changes.
+        当前分支（<Ref>{tip.branch.name}</Ref>）已经发布到 GitHub。创建拉取请求以提出并协作您的更改。
       </>
     )
 
-    const title = `Create a Pull Request from your current branch`
-    const buttonText = `Create Pull Request`
+    const title = `从当前分支创建拉取请求`
+    const buttonText = `创建拉取请求`
 
     const previewPullMenuItem = this.getMenuItemInfo('preview-pull-request')
 
     if (previewPullMenuItem === undefined) {
-      log.error(`Could not find matching menu item for 'preview-pull-request'`)
+      log.error(`未找到与 'preview-pull-request' 相匹配的菜单项`)
       return null
     }
 
@@ -697,13 +695,11 @@ export class NoChanges extends React.Component<
     }
 
     const previewPullRequestAction: IDropdownSuggestedActionOption = {
-      title: `Preview the Pull Request from your current branch`,
-      label: 'Preview Pull Request',
+      title: `预览当前分支的拉取请求`,
+      label: '预览拉取请求',
       description: (
         <>
-          The current branch (<Ref>{tip.branch.name}</Ref>) is already published
-          to GitHub. Preview the changes this pull request will have before
-          proposing your changes.
+          当前分支（<Ref>{tip.branch.name}</Ref>）已经发布到 GitHub。在提出更改之前，预览此拉取请求将有哪些更改。
         </>
       ),
       id: PullRequestSuggestedNextAction.PreviewPullRequest,
