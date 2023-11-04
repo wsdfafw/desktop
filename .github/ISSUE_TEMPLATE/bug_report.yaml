@@ -4,13 +4,13 @@ body:
   - type: markdown
     attributes:
       value: |
-        感谢您提交错误报告！此问题跟踪器适用于 [GitHub Desktop](https://desktop.github.com).请在问题跟踪器中搜索,以查看是否已存在您所遇到问题的问题.如果您在 GitHub Desktop 的 Linux 分支上遇到问题,请在[其存储库中](https://github.com/shiftkey/desktop)打开一个问题.如果您在 github.com 上遇到问题,请[联系 GitHub 支持](https://support.github.com/).
+        感谢您提交错误报告！此问题跟踪器适用于[GitHub Desktop](https://desktop.github.com).请在问题跟踪器中搜索,以查看是否已存在您所遇到问题的问题.如果您在GitHub Desktop的Linux分支上遇到问题,请在[其存储库中](https://github.com/shiftkey/desktop)打开一个问题.如果您在github.com上遇到问题,请[联系GitHub支持](https://support.github.com/).
   - type: textarea
     id: the-problem
     attributes:
       label: 问题
       description:
-        描述您在 GitHub Desktop 中遇到的问题.提供您尝试执行的操作以及发生了什么的清晰而简洁描述,还包括您遇到的任何错误消息.
+        描述您在GitHub Desktop中遇到的问题.提供您尝试执行的操作以及发生了什么的清晰而简洁描述,还包括您遇到的任何错误消息.
     validations:
       required: true
   - type: input
@@ -18,7 +18,7 @@ body:
     attributes:
       label: 发布版本
       description:
-        打开 '关于 GitHub Desktop' 菜单项,查看 GitHub Desktop 的版本.
+        打开'关于GitHub Desktop'菜单项,查看GitHub Desktop的版本.
     validations:
       required: true
   - type: input
@@ -35,16 +35,16 @@ body:
       label: 复现行为的步骤
       description: 提供复现您遇到问题的步骤.
       placeholder: |
-        1. 转到 '...'
-        2. 单击 '....'
-        3. 向下滚动到 '....'
+        1. 转到'...'
+        2. 单击'....'
+        3. 向下滚动到'....'
         4. 查看错误
   - type: textarea
     id: logs
     attributes:
       label: 日志文件
       description:
-        请上传您在遇到问题的某天的日志文件.要访问日志文件,请转到菜单并选择 `帮助` > `显示日志`.
+        请上传您在遇到问题的某天的日志文件.要访问日志文件,请转到菜单并选择`帮助` > `显示日志`.
       placeholder:
         您可以通过单击此区域以突出显示它,然后将文件拖放到其中来附加日志文件.
   - type: textarea

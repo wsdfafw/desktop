@@ -4,20 +4,20 @@ body:
   - type: markdown
     attributes:
       value: |
-        感谢您提交功能请求！此问题跟踪器适用于 [GitHub Desktop](https://desktop.github.com)。请在问题跟踪器中搜索，以查看是否已存在您所请求功能的问题。如果您对 github.com 有功能请求，请访问 [GitHub 公共反馈讨论存储库](https://github.com/github/feedback/discussions)。
+        感谢您提交功能请求！此问题跟踪器适用于[GitHub Desktop](https://desktop.github.com).请在问题跟踪器中搜索,以查看是否已存在您所请求功能的问题.如果您对 github.com 有功能请求,请访问 [GitHub 公共反馈讨论存储库](https://github.com/github/feedback/discussions).
   - type: textarea
     id: the-feature-request
     attributes:
       label: 功能请求
       description:
-        请清晰而简洁地描述功能或问题是什么。
+        请清晰而简洁地描述功能或问题是什么.
     validations:
       required: true
   - type: textarea
     id: proposed-solution
     attributes:
       label: 建议的解决方案
-      description: 分享这将如何使 GitHub Desktop 和其用户受益。
+      description: 分享这将如何使 GitHub Desktop 和其用户受益.
     validations:
       required: true
   - type: textarea
@@ -25,4 +25,4 @@ body:
     attributes:
       label: 附加上下文
       description:
-        请包括任何其他上下文，如截图或示意图，如果适用的话。
+        请包括任何其他上下文,如截图或示意图,如果适用的话.
