@@ -598,7 +598,7 @@ export class NoChanges extends React.Component<
     const menuItem = this.getMenuItemInfo(itemId)
 
     if (menuItem === undefined) {
-      log.error(`Could not find matching menu item for ${itemId}`)
+      log.error(`无法找到与 ${itemId} 匹配的菜单项`)
       return null
     }
 
@@ -608,37 +608,36 @@ export class NoChanges extends React.Component<
     const itemsToPushDescriptions = []
 
     if (aheadBehind.ahead > 0) {
-      itemsToPushTypes.push('commits')
+      itemsToPushTypes.push('提交')
       itemsToPushDescriptions.push(
         aheadBehind.ahead === 1
-          ? '1 local commit'
-          : `${aheadBehind.ahead} local commits`
+          ? '1 个本地提交'
+          : `${aheadBehind.ahead} 个本地提交`
       )
     }
 
-    if (tagsToPush !== null && tagsToPush.length > 0) {
-      itemsToPushTypes.push('tags')
+    if (tagsToPush !== null && tagsToPush.length > 0) { // 如果有待推送的标签
+      itemsToPushTypes.push('标签') // 添加项目类型为 '标签'
       itemsToPushDescriptions.push(
-        tagsToPush.length === 1 ? '1 tag' : `${tagsToPush.length} tags`
+        tagsToPush.length === 1 ? '1 个标签' : `${tagsToPush.length} 个标签`
       )
     }
 
-    const description = `You have ${itemsToPushDescriptions.join(
-      ' and '
-    )} waiting to be pushed to ${isGitHub ? 'GitHub' : 'the remote'}.`
+    const description = `您有 ${itemsToPushDescriptions.join(
+      ' 和 '
+    )} 待推送至 ${isGitHub ? 'GitHub' : '远程'}。`
 
     const discoverabilityContent = (
       <>
-        Always available in the toolbar when there are local commits waiting to
-        be pushed or {this.renderDiscoverabilityKeyboardShortcut(menuItem)}
+        当存在等待推送的本地提交或者 {this.renderDiscoverabilityKeyboardShortcut(menuItem)} 时，始终可在工具栏中使用。
       </>
     )
 
-    const title = `Push ${itemsToPushTypes.join(' and ')} to the ${
+    const title = `将 ${itemsToPushTypes.join(' 和 ')} 推送至 ${
       remote.name
-    } remote`
+    } 远程`
 
-    const buttonText = `Push ${remote.name}`
+    const buttonText = `推送至 ${remote.name}`
 
     return (
       <MenuBackedSuggestedAction
@@ -766,10 +765,9 @@ export class NoChanges extends React.Component<
         <div className="content">
           <div className="interstitial-header">
             <div className="text">
-              <h1>No local changes</h1>
+              <h1>没有本地更改</h1>
               <p>
-                There are no uncommitted changes in this repository. Here are
-                some friendly suggestions for what to do next.
+                此存储库中没有未提交的更改。以下是一些友好的建议，可以考虑下一步做什么。
               </p>
             </div>
             <img src={PaperStackImage} className="blankslate-image" alt="" />

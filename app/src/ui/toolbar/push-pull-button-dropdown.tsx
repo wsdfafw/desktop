@@ -56,7 +56,7 @@ export class PushPullButtonDropDown extends React.Component<IPushPullButtonDropD
       return
     }
 
-    const focusedIndex = Array from(items).indexOf(focusedItem)
+    const focusedIndex = Array.from(items).indexOf(focusedItem)
     const nextIndex =
       event.key === 'ArrowDown' ? focusedIndex + 1 : focusedIndex - 1
     // http://javascript.about.com/od/problemsolving/a/modulobug.htm
