@@ -1,33 +1,31 @@
-name: CI  # 工作流的名称
+name: CI
 
 on:
-  push:  # 当有代码推送时触发工作流
+  push:
     branches:
-      - development  # 仅当推送到"development"分支时触发
-      - zh  # 仅当推送到"zh"分支时触发
-  pull_request:  # 当有拉取请求时触发工作流
-  workflow_call:  # 当另一个工作流通过workflow_call触发时
+      - development
+  pull_request:
+  workflow_call:
     inputs:
       repository:
-        default: wsdfafw/desktop  # 仓库名称（默认值为"wsdfafw/desktop"）
-        required: false  # 不是必需的
-        type: string  # 数据类型为字符串
+        default: desktop/desktop
+        required: false
+        type: string
       ref:
-        required: true  # 必需的
-        type: string  # 数据类型为字符串
+        required: true
+        type: string
       upload-artifacts:
-        default: false  # 默认值为false
-        required: false  # 不是必需的
-        type: boolean  # 数据类型为布尔值
+        default: false
+        required: false
+        type: boolean
       environment:
-        type: string  # 数据类型为字符串
-        required: true  # 必需的
+        type: string
+        required: true
       sign:
-        type: boolean  # 数据类型为布尔值
-        default: true  # 默认值为true
-        required: false  # 不是必需的
-
-    secrets:  # 工作流的机密信息
+        type: boolean
+        default: true
+        required: false
+    secrets:
       AZURE_CODE_SIGNING_TENANT_ID:
       AZURE_CODE_SIGNING_CLIENT_ID:
       AZURE_CODE_SIGNING_CLIENT_SECRET:
@@ -39,25 +37,21 @@ on:
       APPLE_APPLICATION_CERT:
       APPLE_APPLICATION_CERT_PASSWORD:
 
-env:
-  NODE_VERSION: 18.16.1
-
 jobs:
-  lint:  # 工作流中的一个任务，用于代码检查
-    name: Lint  # 任务的名称
-    runs-on: ubuntu-latest  # 在最新的Ubuntu系统上运行任务
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
     env:
-      RELEASE_CHANNEL: ${{ inputs.environment }}  # 设置环境变量RELEASE_CHANNEL，取自输入的environment
-
-    steps:  # 任务的具体步骤
-      - uses: actions/checkout@v4  # 使用GitHub提供的Action来检出代码
+      RELEASE_CHANNEL: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
         with:
-          repository: ${{ inputs.repository || github.repository }}  # 检出指定仓库，默认使用GitHub仓库
-          ref: ${{ inputs.ref }}  # 检出指定引用
-          submodules: recursive  # 递归检出子模块
-      - uses: actions/setup-node@v4  # 使用Node.js的Action
+          repository: ${{ inputs.repository || github.repository }}
+          ref: ${{ inputs.ref }}
+          submodules: recursive
+      - uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: 16.17.1
           cache: yarn
       - run: yarn
       - run: yarn validate-electron-version
@@ -73,6 +67,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        node: [18.16.1]
         os: [macos-13-xl-arm64, windows-2019]
         arch: [x64, arm64]
         include:
@@ -82,35 +77,34 @@ jobs:
     timeout-minutes: 60  # 设置任务的超时时间为60分钟
 
     env:
-      RELEASE_CHANNEL: ${{ inputs.environment }}  # 设置环境变量RELEASE_CHANNEL，取自输入的environment
-
-    steps:  # 任务的具体步骤
-      - uses: actions/checkout@v4  # 使用GitHub提供的Action来检出代码
+      RELEASE_CHANNEL: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
         with:
-          repository: ${{ inputs.repository || github.repository }}  # 检出指定仓库，默认使用GitHub仓库
-          ref: ${{ inputs.ref }}  # 检出指定引用
-          submodules: recursive  # 递归检出子模块
-      - uses: actions/setup-python@v4  # 使用Python的Action
+          repository: ${{ inputs.repository || github.repository }}
+          ref: ${{ inputs.ref }}
+          submodules: recursive
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - name: Use Node.js ${{ env.NODE_VERSION }}
+      - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: ${{ matrix.node }}
           cache: yarn
 
-      # 此步骤可以在官方发布Windows arm64构建后删除：
+      # This step can be removed as soon as official Windows arm64 builds are published:
       # https://github.com/nodejs/build/issues/2450#issuecomment-705853342
       - name: Get NodeJS node-gyp lib for Windows arm64
         if: ${{ matrix.os == 'windows-2019' && matrix.arch == 'arm64' }}
-        run: .\script\download-nodejs-win-arm64.ps1 ${{ env.NODE_VERSION }}
+        run: .\script\download-nodejs-win-arm64.ps1 ${{ matrix.node }}
 
-      - name: Install and build dependencies  # 安装和构建依赖
+      - name: Install and build dependencies
         run: yarn
         env:
           npm_config_arch: ${{ matrix.arch }}
           TARGET_ARCH: ${{ matrix.arch }}
-      - name: Build production app  # 构建生产应用
+      - name: Build production app
         run: yarn build:prod
         env:
           DESKTOP_OAUTH_CLIENT_ID: ${{ secrets.DESKTOP_OAUTH_CLIENT_ID }}
@@ -123,18 +117,18 @@ jobs:
           KEY_PASSWORD: ${{ secrets.APPLE_APPLICATION_CERT_PASSWORD }}
           npm_config_arch: ${{ matrix.arch }}
           TARGET_ARCH: ${{ matrix.arch }}
-      - name: Prepare testing environment  # 准备测试环境
+      - name: Prepare testing environment
         if: matrix.arch == 'x64'
         run: yarn test:setup
         env:
           npm_config_arch: ${{ matrix.arch }}
-      - name: Run unit tests  # 运行单元测试
+      - name: Run unit tests
         if: matrix.arch == 'x64'
         run: yarn test:unit
-      - name: Run script tests  # 运行脚本测试
+      - name: Run script tests
         if: matrix.arch == 'x64'
         run: yarn test:script
-      - name: Install Azure Code Signing Client  # 安装Azure代码签名客户端
+      - name: Install Azure Code Signing Client
         if: ${{ runner.os == 'Windows' && inputs.sign }}
         run: |
           $acsZip = Join-Path $env:RUNNER_TEMP "acs.zip"
@@ -154,7 +148,7 @@ jobs:
         uses: actions/upload-artifact@v3
         if: ${{ inputs.upload-artifacts }}
         with:
-          name: ${{matrix.friendlyName}}-${{matrix.arch}}  # 上传的产物名称
+          name: ${{matrix.friendlyName}}-${{matrix.arch}}
           path: |
             dist/GitHub Desktop-${{matrix.arch}}.zip
             dist/GitHubDesktop-*.nupkg

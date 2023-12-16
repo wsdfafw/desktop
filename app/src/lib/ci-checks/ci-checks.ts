@@ -11,10 +11,7 @@ import {
 import { GitHubRepository } from '../../models/github-repository'
 import { Account } from '../../models/account'
 import { supportsRetrieveActionWorkflowByCheckSuiteId } from '../endpoint-capabilities'
-import {
-  formatLongPreciseDuration,
-  formatPreciseDuration,
-} from '../format-duration'
+import { formatPreciseDuration } from '../format-duration'
 
 /**
  * A Desktop-specific model closely related to a GitHub API Check Run.
@@ -538,24 +535,13 @@ function mapActionWorkflowsRunsToCheckRuns(
 
 /**
  *  Gets the duration of a check run or job step formatted in minutes and
- *  seconds with short notation (e.g. 1m 30s)
+ *  seconds.
  */
 export function getFormattedCheckRunDuration(
   checkRun: IAPIRefCheckRun | IAPIWorkflowJobStep
 ) {
   const duration = getCheckDurationInMilliseconds(checkRun)
   return isNaN(duration) ? '' : formatPreciseDuration(duration)
-}
-
-/**
- *  Gets the duration of a check run or job step formatted in minutes and
- *  seconds with long notation (e.g. 1 minute 30 seconds)
- */
-export function getFormattedCheckRunLongDuration(
-  checkRun: IAPIRefCheckRun | IAPIWorkflowJobStep
-) {
-  const duration = getCheckDurationInMilliseconds(checkRun)
-  return isNaN(duration) ? '' : formatLongPreciseDuration(duration)
 }
 
 /**

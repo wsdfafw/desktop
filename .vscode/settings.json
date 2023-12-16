@@ -27,7 +27,7 @@
   "editor.formatOnSave": true,
   "prettier.ignorePath": ".prettierignore",
   "eslint.options": {
-    "overrideConfigFile": ".eslintrc.yml",
+    "configFile": ".eslintrc.yml",
     "rulePaths": ["eslint-rules"]
   },
   "eslint.validate": [

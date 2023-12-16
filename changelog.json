@@ -1,23 +1,5 @@
 {
   "releases": {
-    "3.3.7-beta2": [
-      "[Fixed] Use list semantics in job step lists for improved accessibility - #17855",
-      "[Fixed] Fix heading levels used in dialogs for improved accessibility - #17848",
-      "[Improved] Replace the \"Default branch name for new repositories\" radio button setting with a more accessible and inclusive textbox input and description - #17844",
-      "[Improved] The \"You're Done\" header is focused after tutorial completion so it is announced and screen reader users are made aware of the completion screen - #17835",
-      "[Improved] Checkboxes always have unique id's for label association - #17839",
-      "[Improved] Better visibility of checkbox focus indicator - #17842",
-      "[Improved] By default, tooltips can be dismissed with the escape key - #17836"
-    ],
-    "3.3.7-beta1": [
-      "[Fixed] Diff no longer jumps when scrolling after pressing expansion buttons - #17776",
-      "[Improved] Focus moves to closes expansion button or diff container after expansion - #17499",
-      "[Improved] Tooltips can be dismissed with the escape key - #17823",
-      "[Improved] Semantically grouping our settings radio and checkbox groups so their group headers will be announced to screen reader users. - #17787",
-      "[Improved] The \"Other\" email description is announced on input focus in the git config form - #17785",
-      "[Improved] Move the repository list on the \"Let's get started!\" screen to the left hand side so it can be the first logical tab placement.  - #17821",
-      "[Improved] Increased the specificity of the \"Sign In\" and \"Sign Out\" buttons in the Account settings - #17794"
-    ],
     "3.3.6": [
       "[Fixed] Previewing a pull request with a deleted image file no longer errors with \"The path does not exist on disk\".  - #17659",
       "[Fixed] Empty lines are included when copying text from diffs - #17652",
