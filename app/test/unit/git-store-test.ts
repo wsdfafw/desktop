@@ -22,7 +22,6 @@ import {
 import { BranchType } from '../../src/models/branch'
 import { StatsStore, StatsDatabase } from '../../src/lib/stats'
 import { UiActivityMonitor } from '../../src/ui/lib/ui-activity-monitor'
-import { fakePost } from '../fake-stats-post'
 
 describe('GitStore', () => {
   let statsStore: StatsStore
@@ -30,8 +29,7 @@ describe('GitStore', () => {
   beforeEach(() => {
     statsStore = new StatsStore(
       new StatsDatabase('test-StatsDatabase'),
-      new UiActivityMonitor(),
-      fakePost
+      new UiActivityMonitor()
     )
   })
 

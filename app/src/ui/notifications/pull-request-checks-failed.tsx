@@ -36,6 +36,8 @@ interface IPullRequestChecksFailedProps {
   readonly accounts: ReadonlyArray<Account>
   readonly repository: RepositoryWithGitHubRepository
   readonly pullRequest: PullRequest
+  readonly commitMessage: string
+  readonly commitSha: string
   readonly checks: ReadonlyArray<IRefCheck>
   readonly onSubmit: () => void
   readonly onDismissed: () => void
@@ -46,6 +48,7 @@ interface IPullRequestChecksFailedState {
   readonly selectedCheckID: number
   readonly checks: ReadonlyArray<IRefCheck>
   readonly loadingActionWorkflows: boolean
+  readonly loadingActionLogs: boolean
 }
 
 /**
@@ -68,6 +71,7 @@ export class PullRequestChecksFailed extends React.Component<
       selectedCheckID: selectedCheck.id,
       checks,
       loadingActionWorkflows: true,
+      loadingActionLogs: true,
     }
   }
 
@@ -78,7 +82,7 @@ export class PullRequestChecksFailed extends React.Component<
   }
 
   private get loadingChecksInfo(): boolean {
-    return this.state.loadingActionWorkflows
+    return this.state.loadingActionWorkflows || this.state.loadingActionLogs
   }
 
   public render() {
@@ -172,6 +176,8 @@ export class PullRequestChecksFailed extends React.Component<
     return (
       <CICheckRunList
         checkRuns={this.state.checks}
+        loadingActionLogs={this.state.loadingActionLogs}
+        loadingActionWorkflows={this.state.loadingActionWorkflows}
         selectable={true}
         onViewCheckDetails={this.onViewOnGitHub}
         onCheckRunClick={this.onCheckRunClick}
@@ -309,7 +315,10 @@ export class PullRequestChecksFailed extends React.Component<
     )
 
     if (account === undefined) {
-      this.setState({ loadingActionWorkflows: false })
+      this.setState({
+        loadingActionWorkflows: false,
+        loadingActionLogs: false,
+      })
       return
     }
 
@@ -335,7 +344,10 @@ export class PullRequestChecksFailed extends React.Component<
       return
     }
 
-    this.setState({ checks: checkRunsWithActionsUrls })
+    this.setState({
+      checks: checkRunsWithActionsUrls,
+      loadingActionWorkflows: false,
+    })
 
     const checks = await getLatestPRWorkflowRunsLogsForCheckRun(
       api,
@@ -348,7 +360,7 @@ export class PullRequestChecksFailed extends React.Component<
       return
     }
 
-    this.setState({ checks, loadingActionWorkflows: false })
+    this.setState({ checks, loadingActionLogs: false })
   }
 
   private onCheckRunClick = (checkRun: IRefCheck): void => {

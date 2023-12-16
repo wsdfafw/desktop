@@ -45,7 +45,6 @@ import { AppFileStatusKind } from '../../src/models/status'
 import { ManualConflictResolution } from '../../src/models/manual-conflict-resolution'
 import { AliveStore } from '../../src/lib/stores/alive-store'
 import { NotificationsStore } from '../../src/lib/stores/notifications-store'
-import { fakePost } from '../fake-stats-post'
 
 // enable mocked version
 jest.mock('../../src/lib/window-state')
@@ -81,11 +80,7 @@ describe('AppStore', () => {
 
     const aliveStore = new AliveStore(accountsStore)
 
-    const statsStore = new StatsStore(
-      statsDb,
-      new TestActivityMonitor(),
-      fakePost
-    )
+    const statsStore = new StatsStore(statsDb, new TestActivityMonitor())
 
     const repositoryStateManager = new RepositoryStateCache(statsStore)
 

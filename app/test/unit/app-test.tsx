@@ -33,7 +33,6 @@ import { AheadBehindStore } from '../../src/lib/stores/ahead-behind-store'
 import { AliveStore } from '../../src/lib/stores/alive-store'
 import { NotificationsStore } from '../../src/lib/stores/notifications-store'
 import { NotificationsDebugStore } from '../../src/lib/stores/notifications-debug-store'
-import { fakePost } from '../fake-stats-post'
 
 describe('App', () => {
   let appStore: AppStore
@@ -54,7 +53,7 @@ describe('App', () => {
 
     const statsDb = new TestStatsDatabase()
     await statsDb.reset()
-    statsStore = new StatsStore(statsDb, new TestActivityMonitor(), fakePost)
+    statsStore = new StatsStore(statsDb, new TestActivityMonitor())
 
     const repositoriesDb = new TestRepositoriesDatabase()
     await repositoriesDb.reset()

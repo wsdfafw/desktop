@@ -183,7 +183,6 @@ export class GitConfigUserForm extends React.Component<
           disabled={this.props.disabled}
           onValueChanged={this.props.onEmailChanged}
           ariaLabel={ariaLabel}
-          ariaDescribedBy="git-email-not-found-warning-for-screen-readers"
           ariaControls="git-email-not-found-warning-for-screen-readers"
         />
       </Row>

@@ -146,7 +146,7 @@ interface IAutocompletingTextInputState<T> {
 /** A text area which provides autocompletions as the user types. */
 export abstract class AutocompletingTextInput<
   ElementType extends HTMLInputElement | HTMLTextAreaElement,
-  AutocompleteItemType extends object
+  AutocompleteItemType extends Object
 > extends React.Component<
   IAutocompletingTextInputProps<ElementType, AutocompleteItemType>,
   IAutocompletingTextInputState<AutocompleteItemType>

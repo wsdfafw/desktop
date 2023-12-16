@@ -351,6 +351,8 @@ export type PopupDetail =
       repository: RepositoryWithGitHubRepository
       pullRequest: PullRequest
       shouldChangeRepository: boolean
+      commitMessage: string
+      commitSha: string
       checks: ReadonlyArray<IRefCheck>
     }
   | {

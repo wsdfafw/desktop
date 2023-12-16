@@ -141,21 +141,16 @@ interface IBranchListState {
   readonly selectedItem: IBranchListItem | null
 }
 
-function createState(
-  defaultBranch: Branch | null,
-  currentBranch: Branch | null,
-  allBranches: ReadonlyArray<Branch>,
-  recentBranches: ReadonlyArray<Branch>,
-  selectedBranch: Branch | null
-): IBranchListState {
+function createState(props: IBranchListProps): IBranchListState {
   const groups = groupBranches(
-    defaultBranch,
-    currentBranch,
-    allBranches,
-    recentBranches
+    props.defaultBranch,
+    props.currentBranch,
+    props.allBranches,
+    props.recentBranches
   )
 
   let selectedItem: IBranchListItem | null = null
+  const selectedBranch = props.selectedBranch
   if (selectedBranch) {
     for (const group of groups) {
       selectedItem =
@@ -185,25 +180,11 @@ export class BranchList extends React.Component<
 
   public constructor(props: IBranchListProps) {
     super(props)
-    this.state = createState(
-      props.defaultBranch,
-      props.currentBranch,
-      props.allBranches,
-      props.recentBranches,
-      props.selectedBranch
-    )
+    this.state = createState(props)
   }
 
   public componentWillReceiveProps(nextProps: IBranchListProps) {
-    this.setState(
-      createState(
-        nextProps.defaultBranch,
-        nextProps.currentBranch,
-        nextProps.allBranches,
-        nextProps.recentBranches,
-        nextProps.selectedBranch
-      )
-    )
+    this.setState(createState(nextProps))
   }
 
   public selectNextItem(focus: boolean = false, direction: SelectionDirection) {

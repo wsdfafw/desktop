@@ -3,8 +3,7 @@ import { DialogContent } from '../dialog'
 import { ForkContributionTarget } from '../../models/workflow-preferences'
 import { RepositoryWithForkedGitHubRepository } from '../../models/repository'
 import { ForkSettingsDescription } from './fork-contribution-target-description'
-import { RadioGroup } from '../lib/radio-group'
-import { assertNever } from '../../lib/fatal-error'
+import { RadioButton } from '../lib/radio-button'
 
 interface IForkSettingsProps {
   readonly forkContributionTarget: ForkContributionTarget
@@ -16,33 +15,27 @@ interface IForkSettingsProps {
 
 /** A view for creating or modifying the repository's gitignore file */
 export class ForkSettings extends React.Component<IForkSettingsProps, {}> {
-  private renderForkOptionsLabel = (key: ForkContributionTarget) => {
-    switch (key) {
-      case ForkContributionTarget.Parent:
-        return 'To contribute to the parent repository'
-      case ForkContributionTarget.Self:
-        return 'For my own purposes'
-      default:
-        return assertNever(key, `Unknown fork contribution target: ${key}`)
-    }
-  }
-
   public render() {
-    const options = [ForkContributionTarget.Parent, ForkContributionTarget.Self]
-    const selectionOption =
-      options.find(o => o === this.props.forkContributionTarget) ??
-      ForkContributionTarget.Parent
-
     return (
       <DialogContent>
-        <h2 id="fork-usage-heading">I'll be using this fork…</h2>
+        <h2>I'll be using this fork…</h2>
 
-        <RadioGroup<ForkContributionTarget>
-          ariaLabelledBy="fork-usage-heading"
-          selectedKey={selectionOption}
-          radioButtonKeys={options}
-          onSelectionChanged={this.onForkContributionTargetChanged}
-          renderRadioButtonLabelContents={this.renderForkOptionsLabel}
+        <RadioButton
+          value={ForkContributionTarget.Parent}
+          checked={
+            this.props.forkContributionTarget === ForkContributionTarget.Parent
+          }
+          label="To contribute to the parent repository"
+          onSelected={this.onForkContributionTargetChanged}
+        />
+
+        <RadioButton
+          value={ForkContributionTarget.Self}
+          checked={
+            this.props.forkContributionTarget === ForkContributionTarget.Self
+          }
+          label="For my own purposes"
+          onSelected={this.onForkContributionTargetChanged}
         />
 
         <ForkSettingsDescription

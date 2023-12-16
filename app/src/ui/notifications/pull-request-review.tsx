@@ -3,6 +3,7 @@ import { Row } from '../lib/row'
 import { OkCancelButtonGroup } from '../dialog/ok-cancel-button-group'
 import { PullRequest } from '../../models/pull-request'
 import { Dispatcher } from '../dispatcher'
+import { Account } from '../../models/account'
 import { RepositoryWithGitHubRepository } from '../../models/repository'
 import {
   getPullRequestReviewStateIcon,
@@ -14,6 +15,7 @@ import { PullRequestCommentLike } from './pull-request-comment-like'
 
 interface IPullRequestReviewProps {
   readonly dispatcher: Dispatcher
+  readonly accounts: ReadonlyArray<Account>
   readonly repository: RepositoryWithGitHubRepository
   readonly pullRequest: PullRequest
   readonly review: ValidNotificationPullRequestReview
@@ -54,6 +56,7 @@ export class PullRequestReview extends React.Component<
   public render() {
     const {
       dispatcher,
+      accounts,
       repository,
       pullRequest,
       emoji,
@@ -68,6 +71,7 @@ export class PullRequestReview extends React.Component<
       <PullRequestCommentLike
         id="pull-request-review"
         dispatcher={dispatcher}
+        accounts={accounts}
         repository={repository}
         pullRequest={pullRequest}
         emoji={emoji}

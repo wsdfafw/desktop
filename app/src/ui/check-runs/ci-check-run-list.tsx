@@ -14,6 +14,12 @@ interface ICICheckRunListProps {
   /** List of check runs to display */
   readonly checkRuns: ReadonlyArray<IRefCheck>
 
+  /** Whether loading action logs */
+  readonly loadingActionLogs: boolean
+
+  /** Whether loading workflow  */
+  readonly loadingActionWorkflows: boolean
+
   /** Whether check runs can be selected. Default: false */
   readonly selectable?: boolean
 
@@ -156,6 +162,8 @@ export class CICheckRunList extends React.PureComponent<
         <CICheckRunListItem
           checkRun={c}
           key={i}
+          loadingActionLogs={this.props.loadingActionLogs}
+          loadingActionWorkflows={this.props.loadingActionWorkflows}
           selectable={selectable}
           selected={selectable && checkRunExpanded}
           // Only expand check runs if the list is not selectable

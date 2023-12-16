@@ -13,7 +13,6 @@ import { getStatusOrThrow } from '../../helpers/status'
 import { GitProcess } from 'dugite'
 import { StatsStore, StatsDatabase } from '../../../src/lib/stats'
 import { UiActivityMonitor } from '../../../src/ui/lib/ui-activity-monitor'
-import { fakePost } from '../../fake-stats-post'
 
 describe('git/checkout', () => {
   let statsStore: StatsStore
@@ -21,8 +20,7 @@ describe('git/checkout', () => {
   beforeEach(() => {
     statsStore = new StatsStore(
       new StatsDatabase('test-StatsDatabase'),
-      new UiActivityMonitor(),
-      fakePost
+      new UiActivityMonitor()
     )
   })
 

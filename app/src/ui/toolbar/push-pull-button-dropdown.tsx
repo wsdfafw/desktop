@@ -10,10 +10,10 @@ import {
 
 interface IPushPullButtonDropDownProps {
   readonly itemTypes: ReadonlyArray<DropdownItemType>
-  /** 远程仓库的名称。 */
+  /** The name of the remote. */
   readonly remoteName: string | null
 
-  /** 应用是否需要提示用户确认强制推送？ */
+  /** Will the app prompt the user to confirm a force push? */
   readonly askForConfirmationOnForcePush: boolean
 
   readonly fetch: () => void
@@ -36,7 +36,8 @@ export class PushPullButtonDropDown extends React.Component<IPushPullButtonDropD
   }
 
   private onDropdownKeyDown = (event: KeyboardEvent) => {
-    // 允许使用上下箭头键导航下拉菜单项（相当于Tab和Shift+Tab）
+    // Allow using Up and Down arrow keys to navigate the dropdown items
+    // (equivalent to Tab and Shift+Tab)
     if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {
       return
     }
@@ -70,8 +71,8 @@ export class PushPullButtonDropDown extends React.Component<IPushPullButtonDropD
     switch (type) {
       case DropdownItemType.Fetch:
         return {
-          title: `获取 ${remoteName} 的最新更改`,
-          description: `从 ${remoteName} 获取最新更改`,
+          title: `Fetch ${remoteName}`,
+          description: `Fetch the latest changes from ${remoteName}`,
           action: this.props.fetch,
           icon: syncClockwise,
         }
@@ -82,15 +83,19 @@ export class PushPullButtonDropDown extends React.Component<IPushPullButtonDropD
             <br />
             <br />
             <div className="warning">
-              <span className="warning-title">警告：</span> 强制推送将会重写远程的历史记录。任何在这个分支上工作的协作者都需要将其本地分支重置以匹配远程的历史记录。
+              <span className="warning-title">Warning:</span> A force push will
+              rewrite history on the remote. Any collaborators working on this
+              branch will need to reset their own local branch to match the
+              history of the remote.
             </div>
           </>
         )
         return {
-          title: `强制推送至 ${remoteName}`,
+          title: `Force push ${remoteName}`,
           description: (
             <>
-              用你的本地更改覆盖 ${remoteName} 上的任何更改{forcePushWarning}
+              Overwrite any changes on {remoteName} with your local changes
+              {forcePushWarning}
             </>
           ),
           action: this.props.forcePushWithLease,

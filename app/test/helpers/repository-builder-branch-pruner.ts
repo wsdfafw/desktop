@@ -11,7 +11,6 @@ import { IAPIFullRepository, getDotComAPIEndpoint } from '../../src/lib/api'
 import { shell } from './test-app-shell'
 import { StatsStore, StatsDatabase } from '../../src/lib/stats'
 import { UiActivityMonitor } from '../../src/ui/lib/ui-activity-monitor'
-import { fakePost } from '../fake-stats-post'
 
 export async function createRepository() {
   const repo = await setupEmptyRepository()
@@ -125,8 +124,7 @@ async function primeCaches(
     shell,
     new StatsStore(
       new StatsDatabase('test-StatsDatabase'),
-      new UiActivityMonitor(),
-      fakePost
+      new UiActivityMonitor()
     )
   )
 

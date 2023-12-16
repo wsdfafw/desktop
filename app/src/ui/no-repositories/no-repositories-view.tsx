@@ -136,8 +136,8 @@ export class NoRepositoriesView extends React.Component<
           </header>
 
           <div className="content">
-            {this.renderRepositoryList()}
             {this.renderGetStartedActions()}
+            {this.renderRepositoryList()}
           </div>
 
           <img

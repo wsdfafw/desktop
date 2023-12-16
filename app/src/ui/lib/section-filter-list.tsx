@@ -50,7 +50,6 @@ interface ISectionFilterListProps<T extends IFilterListItem> {
   readonly rowHeight: number
 
   /** The ordered groups to display in the list. */
-  // eslint-disable-next-line react/no-unused-prop-types
   readonly groups: ReadonlyArray<IFilterListGroup<T>>
 
   /** The selected item. */

@@ -2,8 +2,9 @@ import * as React from 'react'
 
 import { sanitizedRefName } from '../../lib/sanitize-ref-name'
 import { TextBox } from './text-box'
+import { Octicon } from '../octicons'
+import * as OcticonSymbol from '../octicons/octicons.generated'
 import { Ref } from './ref'
-import { InputWarning } from './input-description/input-warning'
 
 interface IRefNameProps {
   /**
@@ -19,11 +20,6 @@ interface IRefNameProps {
   readonly label?: string | JSX.Element
 
   /**
-   * The aria-labelledBy attribute for the text box.
-   */
-  readonly ariaLabelledBy?: string
-
-  /**
    * The aria-describedby attribute for the text box.
    */
   readonly ariaDescribedBy?: string
@@ -36,12 +32,16 @@ interface IRefNameProps {
   readonly onValueChange?: (sanitizedValue: string) => void
 
   /**
-   * Optional verb for the warning message.
+   * Called when the user-entered ref name is not valid.
    *
-   * Warning message: Will be {this.props.warningMessageVerb ?? 'saved '} as{'
-   * '} <Ref>{sanitizedValue}</Ref>.
+   * This gives the opportunity to the caller to specify
+   * a custom warning message explaining that the sanitized
+   * value will be used instead.
    */
-  readonly warningMessageVerb?: string
+  readonly renderWarningMessage?: (
+    sanitizedValue: string,
+    proposedValue: string
+  ) => JSX.Element | string
 
   /**
    * Callback used when the component loses focus.
@@ -89,7 +89,6 @@ export class RefNameTextBox extends React.Component<
           label={this.props.label}
           value={this.state.proposedValue}
           ref={this.textBoxRef}
-          ariaLabelledBy={this.props.ariaLabelledBy}
           ariaDescribedBy={this.props.ariaDescribedBy}
           onValueChanged={this.onValueChange}
           onBlur={this.onBlur}
@@ -144,38 +143,22 @@ export class RefNameTextBox extends React.Component<
       return null
     }
 
+    const renderWarningMessage =
+      this.props.renderWarningMessage ?? this.defaultRenderWarningMessage
+
     return (
-      <InputWarning
-        id="branch-name-warning"
-        className="warning-helper-text"
-        trackedUserInput={proposedValue}
-        ariaLiveMessage={this.getWarningMessageAsString(
-          sanitizedValue,
-          proposedValue
-        )}
-      >
-        <p>{this.renderWarningMessage(sanitizedValue, proposedValue)}</p>
-      </InputWarning>
+      <div className="warning-helper-text">
+        <Octicon symbol={OcticonSymbol.alert} />
+
+        <p>{renderWarningMessage(sanitizedValue, proposedValue)}</p>
+      </div>
     )
   }
 
-  private getWarningMessageAsString(
+  private defaultRenderWarningMessage(
     sanitizedValue: string,
     proposedValue: string
-  ): string {
-    // If the proposed value ends up being sanitized as
-    // an empty string we show a message saying that the
-    // proposed value is invalid.
-    if (sanitizedValue.length === 0) {
-      return `Warning: ${proposedValue} is not a valid name.`
-    }
-
-    return `Warning: Will be ${
-      this.props.warningMessageVerb ?? 'created '
-    } as ${sanitizedValue} (with spaces replaced by hyphens).`
-  }
-
-  private renderWarningMessage(sanitizedValue: string, proposedValue: string) {
+  ) {
     // If the proposed value ends up being sanitized as
     // an empty string we show a message saying that the
     // proposed value is invalid.
@@ -189,8 +172,7 @@ export class RefNameTextBox extends React.Component<
 
     return (
       <>
-        Will be {this.props.warningMessageVerb ?? 'created'} as{' '}
-        <Ref>{sanitizedValue}</Ref>.
+        Will be created as <Ref>{sanitizedValue}</Ref>.
       </>
     )
   }

@@ -1,11 +1,6 @@
 import * as React from 'react'
 import classNames from 'classnames'
 
-interface IUIViewProps {
-  readonly id: string
-  readonly className?: string
-}
-
 /**
  * High order component for housing a View.
  *
@@ -19,15 +14,11 @@ interface IUIViewProps {
  * Examples of what's not a View include the Changes and History tabs
  * as these are contained within the <Repository /> view
  */
-export class UiView extends React.Component<IUIViewProps> {
+export class UiView extends React.Component<React.HTMLProps<HTMLDivElement>> {
   public render() {
-    const { id, className, children } = this.props
-    const cn = classNames(className, 'ui-view')
+    const className = classNames(this.props.className, 'ui-view')
+    const props = { ...this.props, className }
 
-    return (
-      <div id={id} className={cn}>
-        {children}
-      </div>
-    )
+    return <div {...props}>{this.props.children}</div>
   }
 }
