@@ -420,7 +420,6 @@ export class RepositoryView extends React.Component<
     return (
       <SelectedCommits
         repository={this.props.repository}
-        isLocalRepository={this.props.state.remote === null}
         dispatcher={this.props.dispatcher}
         selectedCommits={selectedCommits}
         shasInDiff={shasInDiff}
@@ -450,12 +449,26 @@ export class RepositoryView extends React.Component<
     this.props.dispatcher.incrementMetric('diffOptionsViewedCount')
   }
 
+  private onTutorialCompletionAnnounced = () => {
+    this.props.dispatcher.markTutorialCompletionAsAnnounced(
+      this.props.repository
+    )
+  }
+
   private renderTutorialPane(): JSX.Element {
-    if (this.props.currentTutorialStep === TutorialStep.AllDone) {
+    if (
+      [TutorialStep.AllDone, TutorialStep.Announced].includes(
+        this.props.currentTutorialStep
+      )
+    ) {
       return (
         <TutorialDone
           dispatcher={this.props.dispatcher}
           repository={this.props.repository}
+          tutorialCompletionAnnounced={
+            this.props.currentTutorialStep === TutorialStep.Announced
+          }
+          onTutorialCompletionAnnounced={this.onTutorialCompletionAnnounced}
         />
       )
     } else {
@@ -525,7 +538,6 @@ export class RepositoryView extends React.Component<
             this.props.askForConfirmationOnDiscardChanges
           }
           onDiffOptionsOpened={this.onDiffOptionsOpened}
-          onOpenInExternalEditor={this.props.onOpenInExternalEditor}
         />
       )
     }

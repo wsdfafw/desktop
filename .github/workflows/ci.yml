@@ -39,6 +39,9 @@ on:
       APPLE_APPLICATION_CERT:
       APPLE_APPLICATION_CERT_PASSWORD:
 
+env:
+  NODE_VERSION: 18.16.1
+
 jobs:
   lint:  # 工作流中的一个任务，用于代码检查
     name: Lint  # 任务的名称
@@ -54,28 +57,24 @@ jobs:
           submodules: recursive  # 递归检出子模块
       - uses: actions/setup-node@v4  # 使用Node.js的Action
         with:
-          node-version: 16.17.1  # 安装Node.js版本
-          cache: yarn  # 缓存Yarn依赖
-      - run: yarn  # 运行"yarn"命令
-      - run: yarn validate-electron-version  # 运行验证Electron版本的命令
-      - run: yarn lint  # 运行代码检查命令
-      - run: yarn validate-changelog  # 运行验证变更日志的命令
-      - name: Ensure a clean working directory  # 步骤的名称
-        run: git diff --name-status --exit-code  # 检查工作目录是否干净
-
-  build:  # 工作流中的另一个任务，用于构建
-    name: ${{ matrix.friendlyName }} ${{ matrix.arch }}  # 任务名称，使用矩阵中的变量
-
-    runs-on: ${{ matrix.os }}  # 在矩阵中指定的操作系统上运行任务
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+      - run: yarn
+      - run: yarn validate-electron-version
+      - run: yarn lint
+      - run: yarn validate-changelog
+      - name: Ensure a clean working directory
+        run: git diff --name-status --exit-code
+  build:
+    name: ${{ matrix.friendlyName }} ${{ matrix.arch }}
+    runs-on: ${{ matrix.os }}
     permissions:
-      contents: read  # 为任务指定权限（只读）
-
-    strategy:  # 任务的执行策略
-      fail-fast: false  # 不立即中断整个工作流
-      matrix:  # 定义矩阵
-        node: [18.16.1]  # Node.js版本
-        os: [windows-2019]  # 操作系统
-        arch: [x64, arm64]  # 架构
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-13-xl-arm64, windows-2019]
+        arch: [x64, arm64]
         include:
           - os: windows-2019  # 包括Windows操作系统
             friendlyName: Windows  # Windows的友好名称
@@ -93,18 +92,18 @@ jobs:
           submodules: recursive  # 递归检出子模块
       - uses: actions/setup-python@v4  # 使用Python的Action
         with:
-          python-version: '3.11'  # 安装Python 3.11
-      - name: Use Node.js ${{ matrix.node }}  # 设置Node.js版本
+          python-version: '3.11'
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: ${{ env.NODE_VERSION }}
           cache: yarn
 
       # 此步骤可以在官方发布Windows arm64构建后删除：
       # https://github.com/nodejs/build/issues/2450#issuecomment-705853342
       - name: Get NodeJS node-gyp lib for Windows arm64
         if: ${{ matrix.os == 'windows-2019' && matrix.arch == 'arm64' }}
-        run: .\script\download-nodejs-win-arm64.ps1 ${{ matrix.node }}
+        run: .\script\download-nodejs-win-arm64.ps1 ${{ env.NODE_VERSION }}
 
       - name: Install and build dependencies  # 安装和构建依赖
         run: yarn
