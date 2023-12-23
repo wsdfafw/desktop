@@ -1,28 +1,29 @@
-name: ⭐ 功能请求
-description: 提交一个功能请求
+name: ⭐ Feature Request
+description: Submit a feature request
 body:
   - type: markdown
     attributes:
       value: |
-        感谢您提交功能请求！此问题跟踪器适用于 [GitHub Desktop](https://desktop.github.com)。请在问题跟踪器中搜索，以查看是否已存在您所请求功能的问题。如果您对 github.com 有功能请求，请访问 [GitHub 公共反馈讨论存储库](https://github.com/github/feedback/discussions)。
+        Thanks for submitting a feature request! This issue tracker is for [GitHub Desktop](https://desktop.github.com). Please search the issue tracker to see if there is an existing issue for the feature you are requesting. If you have a feature request for github.com please visit the [GitHub public feedback discussions repository](https://github.com/github/feedback/discussions).
   - type: textarea
     id: the-feature-request
     attributes:
-      label: 功能请求
+      label: The feature request
       description:
-        请清晰而简洁地描述功能或问题是什么。
+        Write a clear and concise description of what the feature or problem is.
     validations:
       required: true
   - type: textarea
     id: proposed-solution
     attributes:
-      label: 建议的解决方案
-      description: 分享这将如何使 GitHub Desktop 和其用户受益。
+      label: Proposed solution
+      description: Share how this will benefit GitHub Desktop and its users.
     validations:
       required: true
   - type: textarea
     id: additional-context
     attributes:
-      label: 附加上下文
+      label: Additional context
       description:
-        请包括任何其他上下文，如截图或示意图，如果适用的话。
+        Please include any other context, like screenshots or mockups, if
+        applicable.
