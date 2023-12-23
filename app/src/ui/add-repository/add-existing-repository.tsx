@@ -247,7 +247,7 @@ export class AddExistingRepository extends React.Component<
     return (
       <Dialog
         id="add-existing-repository"
-        title={__DARWIN__ ? 'Add Local Repository' : 'Add local repository'}
+        title={__DARWIN__ ? '添加本地仓库' : '添加本地仓库'}
         onSubmit={this.addRepository}
         onDismissed={this.props.onDismissed}
         loading={this.state.isTrustingRepository}
