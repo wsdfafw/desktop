@@ -1,104 +1,161 @@
-# 问题分类
+# Issue Triage
 
-> 分诊（triage）是根据患者病情的严重程度确定治疗优先级的过程。在资源不足以立即为所有人提供治疗时，这种方法可以有效地分配患者治疗。
+> Triage (/ˈtriːɑːʒ/ or /triːˈɑːʒ/) is the process of determining the priority
+> of patients' treatments based on the severity of their condition. This
+> rations patient treatment efficiently when resources are insufficient for all
+> to be treated immediately.
 >
-> *来自维基百科*
+> *From Wikipedia*
 
-上述描述了医学分诊，但显然它也适用于我们的情况。分诊是一个筛选我们可以处理的所有事务的过程，以选择我们将处理的少数事务。为了最大程度地提高我们对使用 GitHub Desktop 的人们产生的影响，首要处理的是描述清晰、呈现清楚且具有明显好处的事项。
+The above describes medical triage but it is clear that it also applies to our
+situation. Triage is a process of sifting through all the things that we could
+work on to select the few things that we will work on. In order to maximize the
+impact we have for the people that use GitHub Desktop, things that will get top
+priority are items that are well-described, clearly presented and have obvious
+benefit.
 
-此外，我们希望鼓励有益的反馈和有意义的参与。为了做到这一点，我们将不得不明确我们需要社区成员提供什么，以便我们可以提供他们所需要的。这还意味着当我们没有获得所需的信息或合作时，我们将不得不非常明确和果断，以便我们可以继续前进。就像在急诊室一样，如果在花费几个小时有 10% 的机会拯救一个人和花费几个小时肯定拯救多个人之间选择，选择是明显的。
+Additionally, we want to encourage helpful feedback and meaningful
+participation. In order to do this, we will have to be clear about what we need
+from people so that we can deliver what they need. This also means that we will
+have to be very clear and decisive when we are not getting the information or
+cooperation we need so that we can move on. Just like in an emergency room, if
+it is a choice between spending several hours to have a 10% chance of saving
+one person or spending several hours definitely saving multiple people, the
+choice is clear.
 
-## 目标
+## Goals
 
-* 清晰而有效地沟通
-    * 维护者将处理的事务
-    * 将审核通过的拉取请求
-    * 不会审核通过的拉取请求
-* 明确列出问题满足 "分诊标准" 所需的确切条件，以便无法满足标准的问题可以关闭
-* 减少将问题从首次打开到 `已分诊` 或关闭所需的时间和来回次数
-* 接受社区的输入，以帮助我们向 GitHub Desktop 及其用户提供有意义的结果
+* Communicate clearly and effectively
+    * What the maintainers will work on
+    * What pull requests will be reviewed for acceptance
+    * What pull requests *will not* be reviewed for acceptance
+* Outline exactly what is expected for an issue to meet the "triage bar" so
+  that issues that don't meet the bar can be closed
+* Reduce the amount of time and back-and-forth needed to take an issue from
+  being first-opened to `triaged` or closed
+* Accept input from the community that helps us deliver meaningful results to
+  GitHub Desktop and its users
 
-## 问题列表是我们的待办事项
+## The Issues List Is Our Backlog
 
-GitHub Desktop 的问题列表是维护团队用来指导工作的工具。为了使我们的工作专注而高效，我们的问题列表必须整洁而有组织。从社区获得输入是一项重要的好处，*当它没有让我们分心，而是让事情变得更好时*。
+The GitHub Desktop issues list is what the maintainers team uses to guide our
+work. In order for our work to be focused and efficient, our issues list must
+be clean and well-organized. Accepting input from the community is a
+significant benefit *when it does not distract us from making things better*.
 
-* 未分类的问题是正在评估其是否符合分诊标准的任务。
-* 已分配的开放问题是维护者同意处理的任务。
-* 已关闭的问题要么没有符合分诊标准，要么是维护者不会承担的任务。
+* Untriaged issues are tasks that are being evaluated to determine if they meet
+  the triage bar
+* Open triaged issues are tasks that the maintainers have agreed to work on
+* Closed issues are things that either didn't meet the triage bar or are tasks
+  that the maintainers will not be taking on
 
-## 分诊标准
+## The Triage Bar
 
-为了被认为已分诊，问题 **必须** 包含或被编辑为在问题正文中包含：
+In order to be considered triaged an issue **must** contain or be edited to
+contain in the body of the issue:
 
-* 与给定问题相关联的构建号
-* 问题重现所需的操作系统和操作系统版本号
-* 重现问题或期望行为的具体步骤
-* 如果重现问题的步骤不能 100% 重现它，那么在给定的步骤和配置下，它的重现频率的估计
-* **一个** 而且只有一个问题
-* 重现问题所需的其他信息（示例 Git 仓库，特定的操作系统配置等）
+* The build number associated with the given issue
+* The operating system and OS version number that the problem was reproduced on
+* Specific steps to reproduce the problem or desired behavior
+* If the steps to reproduce the problem do not reproduce it 100% of the time,
+  an estimate of how often it reproduces with the given steps and configuration
+* **One** and only one issue
+* Any other information that is required to reproduce the problem (sample Git
+  repository, specific OS configuration, etc)
 
-### 问题正文
+### The Body of the Issue
 
-您会注意到上面特别提到了问题正文。问题正文是对要执行的任务的描述。维护者只需阅读问题正文就能够理解需要采取什么行动。他们不应该不得不阅读评论的页面才能理解他们需要做什么来解决手头的问题。
+You'll notice above that the body of the issue gets special mention. The body
+of the issue is the description of the task to be done. A maintainer should
+only have to read the body of the issue to understand what needs to happen.
+They should not have to read the pages of comments to understand what they need
+to do in order to address the issue at hand.
 
-## 流程
+## Process
 
-请记住，这不是维护者完全指南的问题。这只是一个分诊流程。一旦所有事项都经过检查，问题得以重现，并应用了适当的标签，问题的分诊流程就结束了。可能需要不定期对问题进行其他维护，这不在此处讨论并且不会被覆盖。
+Keep in mind that this is not the 100% complete maintainer's guide to issues.
+This is only a triage process. Once everything has been checked, the issue
+reproduced and appropriate labels have been applied, the triage process is done
+with the issue. There may be additional maintenance that needs to be done on
+issues from time to time that isn't and won't be covered here.
 
-1. 用户提交新问题
-2. 维护者检查以确保他们充分填
+1. Person files a new issue
+1. Maintainer checks to ensure they adequately filled out the template. If not,
+   close with a request to fill out the template.
+1. Label the issue as a `bug` if the issue is a regression or behaviour that
+   needs to be fixed.
+1. Label the issue with `support` if the issue is specific to one person's
+   configuration and isn't more broadly relevant to other users.
+1. If the issue has already been fixed, add a comment linking to the original
+   issue and close the issue.
+1. If anything is unclear but the template is adequately filled out, post what
+   questions you have and label with `more-information-needed`.
+1. Maintainer attempts to reproduce the problem
+    1. If the problem is not reproducible, label with `needs-reproduction` and
+       ask the author of the issue for clarification on the repro steps.
+1. Label the issue as an `enhancement` if the issue mentions new behaviour
+   or functionality that the app should have.
 
-写了模板。如果没有，请关闭并请求填写模板。
-3. 如果问题是回归或需要修复的行为，则将问题标记为 `bug`。
-4. 如果问题特定于一个人的配置，并且对 Desktop 的其他用户不太相关，则将问题标记为 `support` 并在问题中提到 @desktop/support，以便他们能够与用户一起解决问题。
-5. 如果问题已经修复，请添加指向原问题的评论并关闭问题。
-6. 如果有任何不清楚的地方但模板已经填写充分，请发表您有的问题并标记为 `more-information-needed`。
-7. 维护者尝试重现问题
-    1. 如果问题无法重现，请标记为 `needs-reproduction` 并要求问题的作者进一步说明重现步骤。
-8. 如果问题提到了应用程序应该具有的新行为或功能，则将问题标记为 `enhancement`。
+# Labels
 
-# 标签
+## More Information Needed
 
-## 更多信息需要
+If a reviewer cannot understand or reproduce the issue with the information provided, they should add a comment indicating what is not clear and add the label `more-information-needed`.
 
-如果审核人员无法理解或重现提供的信息，他们应该添加一条评论指出不清楚的地方，并添加标签 `more-information-needed`。
+Although we use a bot, the first responder should also do a manual sweep of issues that are open and labeled `more-information-needed` at least once a week.
+* If a `more-information-needed` issue is stale for more than 14 days after the last comment by a reviewer, the issue will be automatically closed by the no-response bot.
+* If the original poster did not fill out the issue template and has not responded to our request within 7 days, close the issue with the following message `I'm closing the issue due to inactivity but I'm happy to re-open if you can provide more details.`
 
-尽管我们使用了机器人，第一响应者应该每周至少手动检查一次已打开并标记为 `more-information-needed` 的问题。
-* 如果 `more-information-needed` 问题在最后一次评论后已经过去 14 天，且没有新的活动，那么机器人将自动关闭该问题。
-* 如果原始发帖者没有填写问题模板，并且在我们的请求后 7 天内没有回应，请使用以下消息关闭该问题：`由于不活跃而关闭问题，但如果您能提供更多细节，我将很乐意重新打开。`
+## Support
 
-## 支持
+If an issue reported feels specific to one user's setup and a solution will likely not be relevant to other users of Desktop, the reviewer should add the label `support`
+and @-mention @desktop/support so they're able to work with the user to figure out what's causing the problem.
 
-如果报告的问题感觉特定于一个用户的设置，并且解决方案可能不适用于 Desktop 的其他用户，审核人员应该添加标签 `support` 并在问题中提及 @desktop/support，以便他们能够与用户一起解决问题。
+## Needs Reproduction
 
-## 需要重现
+If a problem is consistently not reproducible, we **need** more information
+from the person reporting the problem. If it isn't a simple misunderstanding
+about the steps to reproduce the problem, then we should label it
+`more-information-needed` as well and follow that process.
 
-如果一个问题始终无法重现，我们 **需要** 从报告问题的人那里获取更多信息。如果这不是关于重现问题步骤的简单误解，那么我们还应该标记为 `more-information-needed` 并遵循该流程。
+## Bugs
 
-## 缺陷
+These are problems with the current app that are identified by users. These
+should be reviewed to ensure they:
 
-这些是由用户标识的当前应用程序的问题。应该审核这些问题以确保它们：
+ - specify the build associated with the issue
+ - have instructions sufficient to reproduce the issue
+ - have details about the impact and severity of the issue
 
- - 指定与问题相关的构建
- - 具有足以重现问题的说明
- - 关于问题的影响和严重性的详细信息
+We will use the `more-information-needed` and `reproduction-required` labels to
+indicate when issues are incomplete.
 
-我们将使用 `more-information-needed` 和 `reproduction-required` 标签来指示问题是否不完整。
+Once enough detail has been captured about the issue, and it can be reproduced
+by one of the maintainers, these should be prioritized by the team. Severe bugs
+or bugs affecting many users would be prioritized above minor or low impact
+bugs.
 
-一旦关于问题已捕获足够的详细信息，并且维护者可以重现问题，这些问题应该由团队进行优先处理。严重的错误或影响许多用户的错误将被优先考虑，而优先级较低的或影响较小的错误将被优先考虑。
+## Enhancements
 
-## 增强
+Changes or improvements to existing features of the application are generally
+fine, but should have some review process before they are implemented.
+Contributors are encouraged to open issues to discuss enhancements so that other
+contributors can see and participate in the discussion, and the core team can
+remain transparent about the interactions.
 
-对应用程序现有功能的更改或改进通常是可以接受的，但应在实施之前经过一些审查过程。鼓励贡献者提出问题以讨论增强，以便其他贡献者可以看到并参与讨论，核心团队可以在互动中保持透明。
+To ensure the quality of the application remains high over time, the core team
+may need to work with the user proposing the change to clarify details before
+work should proceed:
 
-为了确保应用程序的质量随着时间的推移保持在高水平，核心团队可能需要与提出更改的用户合作，以澄清详细信息，然后才能继续工作：
+ - user interface - appropriate use of styles, layout
+ - user experience - ensure things are consistent, discoverable
+ - quality - ensure the change does not adversely affect other features
 
- - 用户界面 - 适当使用样式、布局
- - 用户体验 - 确保事物一致、可发现
- - 质量 - 确保更改不会对其他功能产生不良影响
+e.g. GitHub Desktop should support worktrees as a first class feature.
 
-例如，GitHub Desktop 应该将工作树作为一种首要特性进行支持。
+## Out-of-scope
 
-## 超出范围
+We anticipate ideas or suggestions that don't align with how we see the
+application evolving, so we may close issues with an explanation of why.
 
-我们预计会有与我们看到的应用程序演变方式不一致的想法或建议，因此我们可能会关闭并解释为什么关闭。
+e.g. GitHub Desktop should support working with Mercurial repositories.
