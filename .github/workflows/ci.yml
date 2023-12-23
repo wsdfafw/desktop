@@ -44,12 +44,14 @@ jobs:
     env:
       RELEASE_CHANNEL: ${{ inputs.environment }}
     steps:
-      - uses: actions/checkout@v4
+      - name: 检出代码
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.repository || github.repository }}
           ref: ${{ inputs.ref }}
           submodules: recursive
-      - uses: actions/setup-node@v4
+      - name: 设置Node.js环境
+        uses: actions/setup-node@v4
         with:
           node-version: 16.17.1
           cache: yarn
@@ -78,15 +80,17 @@ jobs:
     env:
       RELEASE_CHANNEL: ${{ inputs.environment }}
     steps:
-      - uses: actions/checkout@v4
+      - name: 检出代码
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.repository || github.repository }}
           ref: ${{ inputs.ref }}
           submodules: recursive
-      - uses: actions/setup-python@v4
+      - name: 设置Python环境
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - name: 使用Node.js ${{ matrix.node }}
+      - name: 设置Node.js环境
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
@@ -134,7 +138,7 @@ jobs:
           $acsDir = Join-Path $env:RUNNER_TEMP "acs"
           Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Azure.CodeSigning.Client/1.0.38 -OutFile $acsZip -Verbose
           Expand-Archive $acsZip -Destination $acsDir -Force -Verbose
-          # 用支持ACS的新版signtool替换electron-winstall中的旧版
+          # 用支持ACS的新版signtool替换electron-winstaller中的旧版
           Copy-Item -Path "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\*" -Include signtool.exe,signtool.exe.manifest,Microsoft.Windows.Build.Signing.mssign32.dll.manifest,mssign32.dll,Microsoft.Windows.Build.Signing.wintrust.dll.manifest,wintrust.dll,Microsoft.Windows.Build.Appx.AppxSip.dll.manifest,AppxSip.dll,Microsoft.Windows.Build.Appx.AppxPackaging.dll.manifest,AppxPackaging.dll,Microsoft.Windows.Build.Appx.OpcServices.dll.manifest,OpcServices.dll -Destination "node_modules\electron-winstaller\vendor" -Verbose
       - name: 打包生产应用
         run: yarn package
