@@ -99,20 +99,20 @@ export function buildDefaultMenu({
     label: __DARWIN__ ? 'File' : '&File',
     submenu: [
       {
-        label: __DARWIN__ ? 'New Repository…' : 'New &repository…',
+        label: __DARWIN__ ? '新建仓库…' : '新建仓库…',
         id: 'new-repository',
         click: emit('create-repository'),
         accelerator: 'CmdOrCtrl+N',
       },
       separator,
       {
-        label: __DARWIN__ ? 'Add Local Repository…' : 'Add &local repository…',
+        label: __DARWIN__ ? '添加本地仓库…' : '添加本地仓库…',
         id: 'add-local-repository',
         accelerator: 'CmdOrCtrl+O',
         click: emit('add-local-repository'),
       },
       {
-        label: __DARWIN__ ? 'Clone Repository…' : 'Clo&ne repository…',
+        label: __DARWIN__ ? '克隆仓库…' : '克隆仓库…',
         id: 'clone-repository',
         accelerator: 'CmdOrCtrl+Shift+O',
         click: emit('clone-repository'),
@@ -263,8 +263,8 @@ export function buildDefaultMenu({
       {
         id: 'show-devtools',
         label: __DARWIN__
-          ? 'Toggle Developer Tools'
-          : '&Toggle developer tools',
+          ? '切换开发者工具'
+          : '切换开发者工具',
         accelerator: (() => {
           return __DARWIN__ ? 'Alt+Command+I' : 'Ctrl+Shift+I'
         })(),
