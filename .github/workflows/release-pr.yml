@@ -1,10 +1,10 @@
-name: 'Create Release Pull Request'
+name: '创建发布拉取请求'
 
 on: create
 
 jobs:
   build:
-    name: Create Release Pull Request
+    name: 创建发布拉取请求
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -13,7 +13,7 @@ jobs:
         if: |
           startsWith(github.ref, 'refs/heads/releases/') && !contains(github.ref, 'test')
 
-      - name: Create Pull Request content
+      - name: 创建拉取请求内容
         if: |
           startsWith(github.ref, 'refs/heads/releases/') && !contains(github.ref, 'test')
         run: |
@@ -36,7 +36,7 @@ jobs:
           app_id: ${{ secrets.DESKTOP_RELEASES_APP_ID }}
           private_key: ${{ secrets.DESKTOP_RELEASES_APP_PRIVATE_KEY }}
 
-      - name: Create Release Pull Request
+      - name: 创建发布拉取请求
         uses: peter-evans/create-pull-request@v5.0.2
         if: |
           startsWith(github.ref, 'refs/heads/releases/') && !contains(github.ref, 'test')
