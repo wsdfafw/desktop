@@ -15,7 +15,7 @@ on:
         required: true
         type: string
       upload-artifacts:
-        default: false
+        default: true
         required: false
         type: boolean
       environment:
