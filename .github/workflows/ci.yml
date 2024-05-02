@@ -58,6 +58,7 @@ jobs:
       - run: yarn
       - run: yarn validate-electron-version
       - run: yarn lint:fix
+      - run: yarn lint
       - run: yarn validate-changelog
       - name: 确保工作目录干净
         run: git diff --name-status --exit-code
