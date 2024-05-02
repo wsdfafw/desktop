@@ -1,7 +1,7 @@
 version: "1"
 rules:
   - base: development
-    upstream: desktop:releases/3.3.9
+    upstream: desktop:releases/3.3.10
     mergeMethod: merge
     assignees:
       - buiawpkgew1
