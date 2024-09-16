@@ -2,7 +2,7 @@ import * as React from 'react'
 import classNames from 'classnames'
 
 import { Octicon } from '../octicons'
-import * as OcticonSymbol from '../octicons/octicons.generated'
+import * as octicons from '../octicons/octicons.generated'
 import { RichText } from '../lib/rich-text'
 import { Repository } from '../../models/repository'
 import { Commit } from '../../models/commit'
@@ -20,13 +20,15 @@ import { LinkButton } from '../lib/link-button'
 import { UnreachableCommitsTab } from './unreachable-commits-dialog'
 import { TooltippedCommitSHA } from '../lib/tooltipped-commit-sha'
 import memoizeOne from 'memoize-one'
+import { Account } from '../../models/account'
+import { Emoji } from '../../lib/emoji'
 
 interface ICommitSummaryProps {
   readonly repository: Repository
   readonly selectedCommits: ReadonlyArray<Commit>
   readonly shasInDiff: ReadonlyArray<string>
   readonly changesetData: IChangesetData
-  readonly emoji: Map<string, string>
+  readonly emoji: Map<string, Emoji>
 
   /**
    * Whether or not the commit body container should
@@ -60,6 +62,8 @@ interface ICommitSummaryProps {
 
   /** Called to show unreachable commits dialog */
   readonly showUnreachableCommits: (tab: UnreachableCommitsTab) => void
+
+  readonly accounts: ReadonlyArray<Account>
 }
 
 interface ICommitSummaryState {
@@ -244,7 +248,7 @@ export class CommitSummary extends React.Component<
 
     const expanded = this.props.isExpanded
     const onClick = expanded ? this.onCollapse : this.onExpand
-    const icon = expanded ? OcticonSymbol.fold : OcticonSymbol.unfold
+    const icon = expanded ? octicons.fold : octicons.unfold
 
     return (
       <button onClick={onClick} className="expander">
@@ -390,7 +394,7 @@ export class CommitSummary extends React.Component<
         onMouseOver={this.onHighlightShasNotInDiff}
         onMouseOut={this.onRemoveHighlightOfShas}
       >
-        <Octicon symbol={OcticonSymbol.info} />
+        <Octicon symbol={octicons.info} />
         <LinkButton onClick={this.showUnreachableCommits}>
           {excludedCommitsCount} unreachable {commitsPluralized}
         </LinkButton>{' '}
@@ -400,7 +404,7 @@ export class CommitSummary extends React.Component<
   }
 
   private renderAuthors = () => {
-    const { selectedCommits, repository } = this.props
+    const { selectedCommits, repository, accounts } = this.props
     const { avatarUsers } = this.state
     if (selectedCommits.length > 1) {
       return
@@ -408,7 +412,7 @@ export class CommitSummary extends React.Component<
 
     return (
       <li className="commit-summary-meta-item without-truncation">
-        <AvatarStack users={avatarUsers} />
+        <AvatarStack users={avatarUsers} accounts={accounts} />
         <CommitAttribution
           gitHubRepository={repository.gitHubRepository}
           commits={selectedCommits}
@@ -428,7 +432,7 @@ export class CommitSummary extends React.Component<
         className="commit-summary-meta-item without-truncation"
         aria-label="SHA"
       >
-        <Octicon symbol={OcticonSymbol.gitCommit} />
+        <Octicon symbol={octicons.gitCommit} />
         <TooltippedCommitSHA
           className="selectable"
           commit={selectedCommits[0]}
@@ -556,10 +560,7 @@ export class CommitSummary extends React.Component<
       <>
         {filesAdded > 0 ? (
           <span>
-            <Octicon
-              className="files-added-icon"
-              symbol={OcticonSymbol.diffAdded}
-            />
+            <Octicon className="files-added-icon" symbol={octicons.diffAdded} />
             {filesAdded} added
           </span>
         ) : null}
@@ -567,7 +568,7 @@ export class CommitSummary extends React.Component<
           <span>
             <Octicon
               className="files-modified-icon"
-              symbol={OcticonSymbol.diffModified}
+              symbol={octicons.diffModified}
             />
             {filesModified} modified
           </span>
@@ -576,7 +577,7 @@ export class CommitSummary extends React.Component<
           <span>
             <Octicon
               className="files-deleted-icon"
-              symbol={OcticonSymbol.diffRemoved}
+              symbol={octicons.diffRemoved}
             />
             {filesRemoved} deleted
           </span>
@@ -585,7 +586,7 @@ export class CommitSummary extends React.Component<
           <span>
             <Octicon
               className="files-renamed-icon"
-              symbol={OcticonSymbol.diffRenamed}
+              symbol={octicons.diffRenamed}
             />
             {filesRenamed} renamed
           </span>
@@ -601,7 +602,7 @@ export class CommitSummary extends React.Component<
           fileCount > 0 && hasFileDescription ? filesLongDescription : undefined
         }
       >
-        <Octicon symbol={OcticonSymbol.diff} />
+        <Octicon symbol={octicons.diff} />
         {filesShortDescription}
       </TooltippedContent>
     )
@@ -654,7 +655,7 @@ export class CommitSummary extends React.Component<
     return (
       <li className="commit-summary-meta-item" title={tags.join('\n')}>
         <span>
-          <Octicon symbol={OcticonSymbol.tag} />
+          <Octicon symbol={octicons.tag} />
         </span>
 
         <span className="tags selectable">{tags.join(', ')}</span>

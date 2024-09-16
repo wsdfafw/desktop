@@ -47,7 +47,7 @@
 
 错误被跟踪为 [GitHub 问题](https://guides.github.com/features/issues/)。
 
-只需在 [GitHub Desktop 问题跟踪器](https://github.com/desktop/desktop/issues/new?template=bug_report.md) 上创建一个问题，并填写提供的问题模板。
+只需在 [GitHub Desktop 问题跟踪器](https://github.com/desktop/desktop/issues/new?template=bug_report.yaml) 上创建一个问题，并填写提供的问题模板。
 
 我们感兴趣的信息包括：
 
@@ -61,7 +61,7 @@
 
 在创建增强功能建议之前，请检查[此列表](#提交增强功能建议之前)，因为您可能会发现您不需要创建一个。当您创建增强功能建议时，请尽量[包括尽可能多的细节](#如
 
-何提交好的增强功能建议)。填写[模板](ISSUE_TEMPLATE/problem-to-raise.md)，包括您认为如果您所请求的功能存在，您会采取的步骤。
+何提交好的增强功能建议)。填写[模板](ISSUE_TEMPLATE/feature_request.yaml)，包括您认为如果您所请求的功能存在，您会采取的步骤。
 
 #### 提交增强功能建议之前
 
@@ -71,7 +71,7 @@
 
 增强功能建议被跟踪为 [GitHub 问题](https://guides.github.com/features/issues/)。
 
-只需在 [GitHub Desktop 问题跟踪器](https://github.com/desktop/desktop/issues/new?template=feature_request.md) 上创建一个问题，并填写提供的问题模板。
+只需在 [GitHub Desktop 问题跟踪器](https://github.com/desktop/desktop/issues/new?template=feature_request.yaml) 上创建一个问题，并填写提供的问题模板。
 
 一些额外建议：
 

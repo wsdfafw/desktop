@@ -14,6 +14,7 @@ import { WarnForcePushDialog } from './dialog/warn-force-push-dialog'
 import { PopupType } from '../../models/popup'
 import { Account } from '../../models/account'
 import { IAPIRepoRuleset } from '../../lib/api'
+import { Emoji } from '../../lib/emoji'
 
 export interface IMultiCommitOperationProps {
   readonly repository: Repository
@@ -26,7 +27,7 @@ export interface IMultiCommitOperationProps {
   readonly conflictState: ConflictState | null
 
   /** The emoji map for showing commit emoji's */
-  readonly emoji: Map<string, string>
+  readonly emoji: Map<string, Emoji>
 
   /** The current state of the working directory */
   readonly workingDirectory: WorkingDirectoryStatus
@@ -34,7 +35,12 @@ export interface IMultiCommitOperationProps {
   /** Whether user should be warned about force pushing */
   readonly askForConfirmationOnForcePush: boolean
 
+  // react/no-unused-prop-types doesn't understand abstract classes and
+  // thinks these are unused but they are used in the subclasses.
+  // eslint-disable-next-line react/no-unused-prop-types
   readonly accounts: ReadonlyArray<Account>
+
+  // eslint-disable-next-line react/no-unused-prop-types
   readonly cachedRepoRulesets: ReadonlyMap<number, IAPIRepoRuleset>
 
   /**

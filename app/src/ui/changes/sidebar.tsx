@@ -30,6 +30,7 @@ import { getLargeFilePaths } from '../../lib/large-files'
 import { isConflictedFile, hasUnresolvedConflicts } from '../../lib/status'
 import { getAccountForRepository } from '../../lib/get-account-for-repository'
 import { IAheadBehind } from '../../models/branch'
+import { Emoji } from '../../lib/emoji'
 
 /**
  * The timeout for the animation of the enter/leave animation for Undo.
@@ -46,13 +47,17 @@ interface IChangesSidebarProps {
   readonly dispatcher: Dispatcher
   readonly commitAuthor: CommitIdentity | null
   readonly branch: string | null
-  readonly emoji: Map<string, string>
+  readonly emoji: Map<string, Emoji>
   readonly mostRecentLocalCommit: Commit | null
+  // Used in receiveProps, no-unused-prop-types doesn't know that
+  // eslint-disable-next-line react/no-unused-prop-types
   readonly issuesStore: IssuesStore
   readonly availableWidth: number
   readonly isCommitting: boolean
   readonly commitToAmend: Commit | null
   readonly isPushPullFetchInProgress: boolean
+  // Used in receiveProps, no-unused-prop-types doesn't know that
+  // eslint-disable-next-line react/no-unused-prop-types
   readonly gitHubUserStore: GitHubUserStore
   readonly focusCommitMessage: boolean
   readonly askForConfirmationOnDiscardChanges: boolean
@@ -439,6 +444,7 @@ export class ChangesSidebar extends React.Component<IChangesSidebarProps, {}> {
           showCommitLengthWarning={this.props.showCommitLengthWarning}
           currentRepoRulesInfo={currentRepoRulesInfo}
           aheadBehind={this.props.aheadBehind}
+          accounts={this.props.accounts}
         />
         {this.renderUndoCommit(rebaseConflictState)}
       </div>

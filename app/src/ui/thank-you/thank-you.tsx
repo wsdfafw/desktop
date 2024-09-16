@@ -1,15 +1,14 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react'
 import { DesktopFakeRepository } from '../../lib/desktop-fake-repository'
 import { ReleaseNote } from '../../models/release-notes'
 import { Dialog, DialogContent } from '../dialog'
 import { RichText } from '../lib/rich-text'
 import Confetti from 'react-confetti'
+import { Emoji } from '../../lib/emoji'
 
 interface IThankYouProps {
   readonly onDismissed: () => void
-  readonly emoji: Map<string, string>
+  readonly emoji: Map<string, Emoji>
   readonly userContributions: ReadonlyArray<ReleaseNote>
   readonly friendlyName: string
   readonly latestVersion: string | null

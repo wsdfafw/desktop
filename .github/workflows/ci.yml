@@ -37,6 +37,9 @@ on:
       APPLE_APPLICATION_CERT:
       APPLE_APPLICATION_CERT_PASSWORD:
 
+env:
+  NODE_VERSION: 20.11.1
+
 jobs:
   lint:
     name: 代码检查
@@ -53,7 +56,7 @@ jobs:
       - name: 设置Node.js环境
         uses: actions/setup-node@v4
         with:
-          node-version: 16.17.1
+          node-version: ${{ env.NODE_VERSION }}
           cache: yarn
       - run: yarn
       - run: yarn validate-electron-version
@@ -71,7 +74,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [18.16.1]
         os: [windows-2019]
         arch: [x64, arm64]
         include:
@@ -88,22 +90,15 @@ jobs:
           ref: ${{ inputs.ref }}
           submodules: recursive
       - name: 设置Python环境
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: 设置Node.js环境
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: ${{ env.NODE_VERSION }}
           cache: yarn
-
-      # 此步骤可在官方发布Windows arm64构建后删除：
-      # https://github.com/nodejs/build/issues/2450#issuecomment-705853342
-      - name: 获取Windows arm64的NodeJS node-gyp库
-        if: ${{ matrix.os == 'windows-2019' && matrix.arch == 'arm64' }}
-        run: .\script\download-nodejs-win-arm64.ps1 ${{ matrix.node }}
-
-      - name: 安装并构建依赖
+      - name: Install and build dependencies
         run: yarn
         env:
           npm_config_arch: ${{ matrix.arch }}
@@ -137,7 +132,7 @@ jobs:
         run: |
           $acsZip = Join-Path $env:RUNNER_TEMP "acs.zip"
           $acsDir = Join-Path $env:RUNNER_TEMP "acs"
-          Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Azure.CodeSigning.Client/1.0.38 -OutFile $acsZip -Verbose
+          Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.Trusted.Signing.Client/1.0.52 -OutFile $acsZip -Verbose
           Expand-Archive $acsZip -Destination $acsDir -Force -Verbose
           # 用支持ACS的新版signtool替换electron-winstaller中的旧版
           Copy-Item -Path "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\*" -Include signtool.exe,signtool.exe.manifest,Microsoft.Windows.Build.Signing.mssign32.dll.manifest,mssign32.dll,Microsoft.Windows.Build.Signing.wintrust.dll.manifest,wintrust.dll,Microsoft.Windows.Build.Appx.AppxSip.dll.manifest,AppxSip.dll,Microsoft.Windows.Build.Appx.AppxPackaging.dll.manifest,AppxPackaging.dll,Microsoft.Windows.Build.Appx.OpcServices.dll.manifest,OpcServices.dll -Destination "node_modules\electron-winstaller\vendor" -Verbose
@@ -149,7 +144,7 @@ jobs:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CODE_SIGNING_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CODE_SIGNING_CLIENT_SECRET }}
       - name: 上传构建产物
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{matrix.friendlyName}}-${{matrix.arch}}
           path: |

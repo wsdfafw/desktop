@@ -33,12 +33,13 @@ import { dragAndDropManager } from '../lib/drag-and-drop-manager'
 import { DragType } from '../models/drag-drop'
 import { PullRequestSuggestedNextAction } from '../models/pull-request'
 import { clamp } from '../lib/clamp'
+import { Emoji } from '../lib/emoji'
 
 interface IRepositoryViewProps {
   readonly repository: Repository
   readonly state: IRepositoryState
   readonly dispatcher: Dispatcher
-  readonly emoji: Map<string, string>
+  readonly emoji: Map<string, Emoji>
   readonly sidebarWidth: IConstrainedValue
   readonly commitSummaryWidth: IConstrainedValue
   readonly stashedFilesWidth: IConstrainedValue
@@ -49,6 +50,7 @@ interface IRepositoryViewProps {
   readonly hideWhitespaceInChangesDiff: boolean
   readonly hideWhitespaceInHistoryDiff: boolean
   readonly showSideBySideDiff: boolean
+  readonly showDiffCheckMarks: boolean
   readonly askForConfirmationOnDiscardChanges: boolean
   readonly askForConfirmationOnDiscardStash: boolean
   readonly askForConfirmationOnCheckoutCommit: boolean
@@ -68,6 +70,14 @@ interface IRepositoryViewProps {
    * a foldout dialog such as the file menu, or the branches dropdown
    */
   readonly isShowingFoldout: boolean
+
+  /**
+   * Whether or not the user has a configured (explicitly,
+   * or automatically) external editor. Used to
+   * determine whether or not to render the action for
+   * opening the repository in an external editor.
+   */
+  readonly isExternalEditorAvailable: boolean
 
   /** The name of the currently selected external editor */
   readonly externalEditorLabel?: string
@@ -306,6 +316,7 @@ export class RepositoryView extends React.Component<
         askForConfirmationOnCheckoutCommit={
           this.props.askForConfirmationOnCheckoutCommit
         }
+        accounts={this.props.accounts}
       />
     )
   }
@@ -420,7 +431,6 @@ export class RepositoryView extends React.Component<
     return (
       <SelectedCommits
         repository={this.props.repository}
-        isLocalRepository={this.props.state.remote === null}
         dispatcher={this.props.dispatcher}
         selectedCommits={selectedCommits}
         shasInDiff={shasInDiff}
@@ -442,6 +452,7 @@ export class RepositoryView extends React.Component<
         onChangeImageDiffType={this.onChangeImageDiffType}
         onDiffOptionsOpened={this.onDiffOptionsOpened}
         showDragOverlay={showDragOverlay}
+        accounts={this.props.accounts}
       />
     )
   }
@@ -450,12 +461,26 @@ export class RepositoryView extends React.Component<
     this.props.dispatcher.incrementMetric('diffOptionsViewedCount')
   }
 
+  private onTutorialCompletionAnnounced = () => {
+    this.props.dispatcher.markTutorialCompletionAsAnnounced(
+      this.props.repository
+    )
+  }
+
   private renderTutorialPane(): JSX.Element {
-    if (this.props.currentTutorialStep === TutorialStep.AllDone) {
+    if (
+      [TutorialStep.AllDone, TutorialStep.Announced].includes(
+        this.props.currentTutorialStep
+      )
+    ) {
       return (
         <TutorialDone
           dispatcher={this.props.dispatcher}
           repository={this.props.repository}
+          tutorialCompletionAnnounced={
+            this.props.currentTutorialStep === TutorialStep.Announced
+          }
+          onTutorialCompletionAnnounced={this.onTutorialCompletionAnnounced}
         />
       )
     } else {
@@ -487,9 +512,7 @@ export class RepositoryView extends React.Component<
             appMenu={this.props.appMenu}
             repository={this.props.repository}
             repositoryState={this.props.state}
-            isExternalEditorAvailable={
-              this.props.externalEditorLabel !== undefined
-            }
+            isExternalEditorAvailable={this.props.isExternalEditorAvailable}
             dispatcher={this.props.dispatcher}
             pullRequestSuggestedNextAction={
               this.props.pullRequestSuggestedNextAction
@@ -518,6 +541,7 @@ export class RepositoryView extends React.Component<
           imageDiffType={this.props.imageDiffType}
           hideWhitespaceInDiff={this.props.hideWhitespaceInChangesDiff}
           showSideBySideDiff={this.props.showSideBySideDiff}
+          showDiffCheckMarks={this.props.showDiffCheckMarks}
           onOpenBinaryFile={this.onOpenBinaryFile}
           onOpenSubmodule={this.onOpenSubmodule}
           onChangeImageDiffType={this.onChangeImageDiffType}
@@ -525,7 +549,6 @@ export class RepositoryView extends React.Component<
             this.props.askForConfirmationOnDiscardChanges
           }
           onDiffOptionsOpened={this.onDiffOptionsOpened}
-          onOpenInExternalEditor={this.props.onOpenInExternalEditor}
         />
       )
     }

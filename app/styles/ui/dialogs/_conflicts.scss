@@ -7,7 +7,7 @@ dialog#conflicts-dialog {
     margin-bottom: 20px;
   }
 
-  .dialog-header h2 {
+  .dialog-header h1 {
     font-weight: var(--font-weight-light);
   }
 
@@ -122,6 +122,7 @@ dialog#conflicts-dialog {
     .octicon {
       width: 10px;
       height: 14px;
+      pointer-events: none;
     }
   }
 }

@@ -26,6 +26,8 @@ import {
   PopoverScreenBorderPadding,
 } from '../lib/popover'
 import { KeyboardShortcut } from '../keyboard-shortcut/keyboard-shortcut'
+import { Account } from '../../models/account'
+import { Emoji } from '../../lib/emoji'
 
 const RowHeight = 50
 
@@ -52,7 +54,7 @@ interface ICommitListProps {
   readonly canResetToCommits?: boolean
 
   /** The emoji lookup to render images inline */
-  readonly emoji: Map<string, string>
+  readonly emoji: Map<string, Emoji>
 
   /** The list of known local commits for the current branch */
   readonly localCommitSHAs: ReadonlyArray<string>
@@ -174,6 +176,8 @@ interface ICommitListProps {
 
   /** Shas that should be highlighted */
   readonly shasToHighlight?: ReadonlyArray<string>
+
+  readonly accounts: ReadonlyArray<Account>
 }
 
 interface ICommitListState {
@@ -299,9 +303,7 @@ export class CommitList extends React.Component<
         onRenderCommitDragElement={this.onRenderCommitDragElement}
         onRemoveDragElement={this.props.onRemoveCommitDragElement}
         disableSquashing={this.props.disableSquashing}
-        isMultiCommitOperationInProgress={
-          this.props.isMultiCommitOperationInProgress
-        }
+        accounts={this.props.accounts}
       />
     )
   }
@@ -586,6 +588,7 @@ export class CommitList extends React.Component<
             selectedCommits={commits}
             isKeyboardInsertion={true}
             emoji={emoji}
+            accounts={this.props.accounts}
           />
         )
       default:

@@ -17,7 +17,7 @@ import { assertNever } from '../../lib/fatal-error'
 import { ReleaseNotesUri } from '../lib/releases'
 import { encodePathAsUrl } from '../../lib/path'
 import { isTopMostDialog } from '../dialog/is-top-most'
-import { isWindowsAndNoLongerSupportedByElectron } from '../../lib/get-os'
+import { isOSNoLongerSupportedByElectron } from '../../lib/get-os'
 
 const logoPath = __DARWIN__
   ? 'static/logo-64x64@2x.png'
@@ -27,7 +27,7 @@ const DesktopLogo = encodePathAsUrl(__dirname, logoPath)
 interface IAboutProps {
   /**
    * Event triggered when the dialog is dismissed by the user in the
-   * ways described in the Dialog component's dismissable prop.
+   * ways described in the Dialog component's dismissible prop.
    */
   readonly onDismissed: () => void
 
@@ -156,7 +156,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
           ![
             UpdateStatus.UpdateNotChecked,
             UpdateStatus.UpdateNotAvailable,
-          ].includes(updateStatus) || isWindowsAndNoLongerSupportedByElectron()
+          ].includes(updateStatus) || isOSNoLongerSupportedByElectron()
 
         const onClick = this.state.altKeyPressed
           ? this.props.onCheckForNonStaggeredUpdates
@@ -271,7 +271,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
       return null
     }
 
-    if (isWindowsAndNoLongerSupportedByElectron()) {
+    if (isOSNoLongerSupportedByElectron()) {
       return (
         <DialogError>
           This operating system is no longer supported. Software updates have
@@ -322,10 +322,12 @@ export class About extends React.Component<IAboutProps, IAboutState> {
     )
 
     const versionText = __DEV__ ? `Build ${version}` : `Version ${version}`
+    const titleId = 'Dialog_about'
 
     return (
       <Dialog
         id="about"
+        titleId={titleId}
         onSubmit={this.props.onDismissed}
         onDismissed={this.props.onDismissed}
       >
@@ -339,7 +341,7 @@ export class About extends React.Component<IAboutProps, IAboutState> {
               height="64"
             />
           </Row>
-          <h2>{name}</h2>
+          <h1 id={titleId}>About {name}</h1>
           <p className="no-padding">
             <span className="selectable-text">
               {versionText} ({this.props.applicationArchitecture})

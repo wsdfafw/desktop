@@ -24,6 +24,9 @@ interface IRange {
 }
 
 interface IAutocompletingTextInputProps<ElementType, AutocompleteItemType> {
+  /** An optional specified id for the input */
+  readonly inputId?: string
+
   /**
    * An optional className to be applied to the rendered
    * top level element of the component.
@@ -35,6 +38,11 @@ interface IAutocompletingTextInputProps<ElementType, AutocompleteItemType> {
 
   /** Content of an optional invisible label element for screen readers. */
   readonly screenReaderLabel?: string
+
+  /**
+   * The label of the text box.
+   */
+  readonly label?: string | JSX.Element
 
   /** The placeholder for the input field. */
   readonly placeholder?: string
@@ -146,7 +154,7 @@ interface IAutocompletingTextInputState<T> {
 /** A text area which provides autocompletions as the user types. */
 export abstract class AutocompletingTextInput<
   ElementType extends HTMLInputElement | HTMLTextAreaElement,
-  AutocompleteItemType extends Object
+  AutocompleteItemType extends object
 > extends React.Component<
   IAutocompletingTextInputProps<ElementType, AutocompleteItemType>,
   IAutocompletingTextInputState<AutocompleteItemType>
@@ -175,7 +183,8 @@ export abstract class AutocompletingTextInput<
   }
 
   public componentWillMount() {
-    const elementId = createUniqueId('autocompleting-text-input')
+    const elementId =
+      this.props.inputId ?? createUniqueId('autocompleting-text-input')
     const autocompleteContainerId = createUniqueId('autocomplete-container')
 
     this.setState({
@@ -209,6 +218,16 @@ export abstract class AutocompletingTextInput<
     return this.props.elementId ?? this.state.uniqueInternalElementId
   }
 
+  private getItemAriaLabel = (row: number): string | undefined => {
+    const state = this.state.autocompletionState
+    if (!state) {
+      return undefined
+    }
+
+    const item = state.items[row]
+    return state.provider.getItemAriaLabel?.(item)
+  }
+
   private renderItem = (row: number): JSX.Element | null => {
     const state = this.state.autocompletionState
     if (!state) {
@@ -235,9 +254,9 @@ export abstract class AutocompletingTextInput<
       return null
     }
 
-    const selectedRow = state.selectedItem
-      ? items.indexOf(state.selectedItem)
-      : -1
+    const selectedRows = state.selectedItem
+      ? [items.indexOf(state.selectedItem)]
+      : []
 
     // The height needed to accommodate all the matched items without overflowing
     //
@@ -266,6 +285,7 @@ export abstract class AutocompletingTextInput<
         minHeight={minHeight}
         trapFocus={false}
         className={className}
+        isDialog={false}
       >
         <List
           accessibleListId={this.state.autocompleteContainerId}
@@ -273,9 +293,10 @@ export abstract class AutocompletingTextInput<
           rowCount={items.length}
           rowHeight={RowHeight}
           rowId={this.getRowId}
-          selectedRows={[selectedRow]}
+          selectedRows={selectedRows}
           rowRenderer={this.renderItem}
-          scrollToRow={selectedRow}
+          getRowAriaLabel={this.getItemAriaLabel}
+          scrollToRow={selectedRows.at(0)}
           onRowMouseDown={this.onRowMouseDown}
           onRowClick={this.insertCompletionOnClick}
           onSelectedRowChanged={this.onSelectedRowChanged}
@@ -514,6 +535,7 @@ export abstract class AutocompletingTextInput<
         'text-area-component': tagName === 'textarea',
       }
     )
+    const { label, screenReaderLabel } = this.props
 
     const autoCompleteItems = this.state.autocompletionState?.items ?? []
 
@@ -525,11 +547,12 @@ export abstract class AutocompletingTextInput<
     return (
       <div className={className}>
         {this.renderAutocompletions()}
-        {this.props.screenReaderLabel && (
+        {screenReaderLabel && label === undefined && (
           <label className="sr-only" htmlFor={this.elementId}>
-            {this.props.screenReaderLabel}
+            {screenReaderLabel}
           </label>
         )}
+        {label && <label htmlFor={this.elementId}>{label}</label>}
         {this.renderTextInput()}
         {this.renderInvisibleCaret()}
         <AriaLiveContainer

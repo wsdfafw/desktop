@@ -37,7 +37,7 @@ jobs:
           private_key: ${{ secrets.DESKTOP_RELEASES_APP_PRIVATE_KEY }}
 
       - name: 创建发布拉取请求
-        uses: peter-evans/create-pull-request@v5.0.2
+        uses: peter-evans/create-pull-request@v6.0.5
         if: |
           startsWith(github.ref, 'refs/heads/releases/') && !contains(github.ref, 'test')
         with:
