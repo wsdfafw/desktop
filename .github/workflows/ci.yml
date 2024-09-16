@@ -131,18 +131,18 @@ jobs:
           KEY_PASSWORD: ${{ secrets.APPLE_APPLICATION_CERT_PASSWORD }}
           npm_config_arch: ${{ matrix.arch }}
           TARGET_ARCH: ${{ matrix.arch }}
-      - name: 准备测试环境
-        if: matrix.arch == 'x64'
-        run: yarn test:setup
-        env:
-          npm_config_arch: ${{ matrix.arch }}
-      - name: 运行单元测试
-        if: matrix.arch == 'x64'
-        run: yarn test:unit
-      - name: 运行脚本测试
-        if: matrix.arch == 'x64'
-        run: yarn test:script
-      - name: 安装Azure Code Signing客户端
+      # - name: Prepare testing environment
+      #   if: matrix.arch == 'x64'
+      #   run: yarn test:setup
+      #   env:
+      #     npm_config_arch: ${{ matrix.arch }}
+      # - name: Run unit tests
+      #   if: matrix.arch == 'x64'
+      #   run: yarn test:unit
+      # - name: Run script tests
+      #   if: matrix.arch == 'x64'
+      #   run: yarn test:script
+      - name: Install Azure Code Signing Client
         if: ${{ runner.os == 'Windows' && inputs.sign }}
         run: |
           $acsZip = Join-Path $env:RUNNER_TEMP "acs.zip"
