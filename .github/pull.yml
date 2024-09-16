@@ -1,6 +1,6 @@
 version: "1"
 rules:
-  - base: development
+  - base: 3.4.4
     upstream: desktop:releases/3.4.4
     mergeMethod: merge
     assignees:
