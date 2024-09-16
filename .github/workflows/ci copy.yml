@@ -25,8 +25,6 @@ jobs:
           yarn add rimraf@5.0.0
           yarn add --dev prettier
           yarn prettier --write "./**/*.{ts,tsx,js,json,jsx,scss,html,yaml,yml}"
-          yarn prettier --check "./**/*.{ts,tsx,js,json,jsx,scss,html,yaml,yml}"
-
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add ./**/*.{ts,tsx,js,json,jsx,scss,html,yaml,yml}
