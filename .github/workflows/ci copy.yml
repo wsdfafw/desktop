@@ -5,9 +5,6 @@ on:
     branches:
       - development
 
-env:
-  NODE_VERSION: 20.11.1
-
 jobs:
   lint:
     name: 代码检查
@@ -23,12 +20,12 @@ jobs:
           submodules: recursive
       - name: 设置Node.js环境
         uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: yarn
       - name: 推送元数据更改
         run: |
+          yarn add --dev prettier
           yarn prettier --write "./**/*.{ts,tsx,js,json,jsx,scss,html,yaml,yml}"
+          yarn prettier --check "./**/*.{ts,tsx,js,json,jsx,scss,html,yaml,yml}"
+
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add ./**/*.{ts,tsx,js,json,jsx,scss,html,yaml,yml}
