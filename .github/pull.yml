@@ -1,4 +1,4 @@
-version: "1"
+version: '1'
 rules:
   - base: 3.4.4
     upstream: desktop:releases/3.4.4
