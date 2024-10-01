@@ -5,8 +5,6 @@ import { Row } from './row'
 import { Octicon } from '../octicons'
 import * as octicons from '../octicons/octicons.generated'
 import { Ref } from './ref'
-import { IStashEntry } from '../../models/stash-entry'
-import { enableMoveStash } from '../../lib/feature-flag'
 
 export function renderBranchHasRemoteWarning(branch: Branch) {
   if (branch.upstream != null) {
@@ -43,18 +41,6 @@ export function renderBranchNameExistsOnRemoteWarning(
       <p>
         已存在同名远程分支 <Ref>{sanitizedName}</Ref>。
       </p>
-    </Row>
-  )
-}
-
-export function renderStashWillBeLostWarning(stash: IStashEntry | null) {
-  if (stash === null || enableMoveStash()) {
-    return null
-  }
-  return (
-    <Row className="warning-helper-text">
-      <Octicon symbol={octicons.alert} />
-      <p>如果重命名分支，当前暂存区内容将会在 GitHub Desktop 中丢失。</p>
     </Row>
   )
 }
