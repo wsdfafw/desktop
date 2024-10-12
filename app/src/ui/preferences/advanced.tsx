@@ -4,7 +4,6 @@ import { Checkbox, CheckboxValue } from '../lib/checkbox'
 import { LinkButton } from '../lib/link-button'
 import { SamplesURL } from '../../lib/stats'
 import { isWindowsOpenSSHAvailable } from '../../lib/ssh/ssh'
-import { enableExternalCredentialHelper } from '../../lib/feature-flag'
 
 interface IAdvancedPreferencesProps {
   readonly useWindowsOpenSSH: boolean
@@ -123,35 +122,33 @@ export class Advanced extends React.Component<
             onChange={this.onReportingOptOutChanged}
           />
         </div>
-        {(this.state.canUseWindowsSSH || enableExternalCredentialHelper()) && (
-          <h2>网络与认证</h2>
-        )}
+        <h2>网络与认证</h2>
         {this.renderSSHSettings()}
-        {enableExternalCredentialHelper() && (
-          <div className="advanced-section">
-            <Checkbox
-              label={'使用 Git 凭据管理器'}
-              value={
-                this.state.useExternalCredentialHelper
-                  ? CheckboxValue.On
-                  : CheckboxValue.Off
-              }
-              onChange={this.onUseExternalCredentialHelperChanged}
-              ariaDescribedBy="use-external-credential-helper-description"
-            />
-            <div
-              id="use-external-credential-helper-description"
-              className="git-settings-description"
-            >
-              <p>
-                使用{' '}
-                <LinkButton uri="https://gh.io/gcm">Git 凭据管理器</LinkButton>{' '}
-                来访问 GitHub.com
-                之外的私有仓库。这是一个实验性功能，未来可能会调整。
-              </p>
-            </div>
+        <div className="advanced-section">
+          <Checkbox
+            label={'使用 Git 凭据管理器'}
+            value={
+              this.state.useExternalCredentialHelper
+                ? CheckboxValue.On
+                : CheckboxValue.Off
+            }
+            onChange={this.onUseExternalCredentialHelperChanged}
+            ariaDescribedBy="use-external-credential-helper-description"
+          />
+          <div
+            id="use-external-credential-helper-description"
+            className="git-settings-description"
+          >
+            <p>
+              Use{' '}
+              <LinkButton uri="https://gh.io/gcm">
+              Git 凭据管理器{' '}
+              </LinkButton>{' '}
+              来访问 GitHub.com
+              之外的私有仓库。这是一个实验性功能，未来可能会调整。
+            </p>
           </div>
-        )}
+        </div>
       </DialogContent>
     )
   }
