@@ -12,7 +12,6 @@ import {
   getGlobalConfigValue,
   setGlobalConfigValue,
 } from '../../lib/git/config'
-import { getGlobalConfigPath } from '../../lib/git'
 import { lookupPreferredEmail } from '../../lib/email'
 import { Shell, getAvailableShells } from '../../lib/shells'
 import { getAvailableEditors } from '../../lib/editors/lookup'
@@ -68,6 +67,7 @@ interface IPreferencesProps {
   readonly confirmCheckoutCommit: boolean
   readonly confirmForcePush: boolean
   readonly confirmUndoCommit: boolean
+  readonly askForConfirmationOnCommitFilteredChanges: boolean
   readonly uncommittedChangesStrategy: UncommittedChangesStrategy
   readonly selectedExternalEditor: string | null
   readonly selectedShell: Shell
@@ -78,7 +78,7 @@ interface IPreferencesProps {
   readonly useCustomShell: boolean
   readonly customShell: ICustomIntegration | null
   readonly repositoryIndicatorsEnabled: boolean
-  readonly onOpenFileInExternalEditor: (path: string) => void
+  readonly onEditGlobalGitConfig: () => void
   readonly underlineLinks: boolean
   readonly showDiffCheckMarks: boolean
 }
@@ -104,6 +104,7 @@ interface IPreferencesState {
   readonly confirmCheckoutCommit: boolean
   readonly confirmForcePush: boolean
   readonly confirmUndoCommit: boolean
+  readonly askForConfirmationOnCommitFilteredChanges: boolean
   readonly uncommittedChangesStrategy: UncommittedChangesStrategy
   readonly availableEditors: ReadonlyArray<string>
   readonly useCustomEditor: boolean
@@ -128,7 +129,6 @@ interface IPreferencesState {
   readonly initiallySelectedTabSize: number
 
   readonly isLoadingGitConfig: boolean
-  readonly globalGitConfigPath: string | null
 
   readonly underlineLinks: boolean
 
@@ -179,6 +179,7 @@ export class Preferences extends React.Component<
       confirmCheckoutCommit: false,
       confirmForcePush: false,
       confirmUndoCommit: false,
+      askForConfirmationOnCommitFilteredChanges: false,
       uncommittedChangesStrategy: defaultUncommittedChangesStrategy,
       selectedExternalEditor: this.props.selectedExternalEditor,
       availableShells: [],
@@ -187,7 +188,6 @@ export class Preferences extends React.Component<
       initiallySelectedTheme: this.props.selectedTheme,
       initiallySelectedTabSize: this.props.selectedTabSize,
       isLoadingGitConfig: true,
-      globalGitConfigPath: null,
       underlineLinks: this.props.underlineLinks,
       showDiffCheckMarks: this.props.showDiffCheckMarks,
     }
@@ -226,8 +226,6 @@ export class Preferences extends React.Component<
     const availableEditors = editors.map(e => e.editor) ?? null
     const availableShells = shells.map(e => e.shell) ?? null
 
-    const globalGitConfigPath = await getGlobalConfigPath()
-
     this.setState({
       committerName,
       committerEmail,
@@ -248,6 +246,8 @@ export class Preferences extends React.Component<
       confirmCheckoutCommit: this.props.confirmCheckoutCommit,
       confirmForcePush: this.props.confirmForcePush,
       confirmUndoCommit: this.props.confirmUndoCommit,
+      askForConfirmationOnCommitFilteredChanges:
+        this.props.askForConfirmationOnCommitFilteredChanges,
       uncommittedChangesStrategy: this.props.uncommittedChangesStrategy,
       availableShells,
       availableEditors,
@@ -256,7 +256,6 @@ export class Preferences extends React.Component<
       useCustomShell: this.props.useCustomShell,
       customShell: this.props.customShell ?? DefaultCustomIntegration,
       isLoadingGitConfig: false,
-      globalGitConfigPath,
     })
   }
 
@@ -446,9 +445,7 @@ export class Preferences extends React.Component<
               onEmailChanged={this.onCommitterEmailChanged}
               onDefaultBranchChanged={this.onDefaultBranchChanged}
               isLoadingGitConfig={this.state.isLoadingGitConfig}
-              selectedExternalEditor={this.props.selectedExternalEditor}
-              onOpenFileInExternalEditor={this.props.onOpenFileInExternalEditor}
-              globalGitConfigPath={this.state.globalGitConfigPath}
+              onEditGlobalGitConfig={this.props.onEditGlobalGitConfig}
             />
           </>
         )
@@ -484,6 +481,9 @@ export class Preferences extends React.Component<
             confirmCheckoutCommit={this.state.confirmCheckoutCommit}
             confirmForcePush={this.state.confirmForcePush}
             confirmUndoCommit={this.state.confirmUndoCommit}
+            askForConfirmationOnCommitFilteredChanges={
+              this.state.askForConfirmationOnCommitFilteredChanges
+            }
             onConfirmRepositoryRemovalChanged={
               this.onConfirmRepositoryRemovalChanged
             }
@@ -495,6 +495,9 @@ export class Preferences extends React.Component<
               this.onConfirmDiscardChangesPermanentlyChanged
             }
             onConfirmUndoCommitChanged={this.onConfirmUndoCommitChanged}
+            onAskForConfirmationOnCommitFilteredChanges={
+              this.onAskForConfirmationOnCommitFilteredChanges
+            }
             uncommittedChangesStrategy={this.state.uncommittedChangesStrategy}
             onUncommittedChangesStrategyChanged={
               this.onUncommittedChangesStrategyChanged
@@ -613,6 +616,10 @@ export class Preferences extends React.Component<
 
   private onConfirmUndoCommitChanged = (value: boolean) => {
     this.setState({ confirmUndoCommit: value })
+  }
+
+  private onAskForConfirmationOnCommitFilteredChanges = (value: boolean) => {
+    this.setState({ askForConfirmationOnCommitFilteredChanges: value })
   }
 
   private onUncommittedChangesStrategyChanged = (
@@ -798,6 +805,9 @@ export class Preferences extends React.Component<
     )
 
     await dispatcher.setConfirmUndoCommitSetting(this.state.confirmUndoCommit)
+    await dispatcher.setConfirmCommitFilteredChanges(
+      this.state.askForConfirmationOnCommitFilteredChanges
+    )
 
     if (this.state.selectedExternalEditor) {
       await dispatcher.setExternalEditor(this.state.selectedExternalEditor)

@@ -184,6 +184,7 @@ import {
   getBranchMergeBaseDiff,
   checkoutCommit,
   getRemoteURL,
+  getGlobalConfigPath,
 } from '../git'
 import {
   installGlobalLFSFilters,
@@ -378,6 +379,7 @@ const confirmDiscardStashDefault: boolean = true
 const confirmCheckoutCommitDefault: boolean = true
 const askForConfirmationOnForcePushDefault = true
 const confirmUndoCommitDefault: boolean = true
+const confirmCommitFilteredChangesDefault: boolean = true
 const askToMoveToApplicationsFolderKey: string = 'askToMoveToApplicationsFolder'
 const confirmRepoRemovalKey: string = 'confirmRepoRemoval'
 const showCommitLengthWarningKey: string = 'showCommitLengthWarning'
@@ -388,6 +390,8 @@ const confirmDiscardChangesPermanentlyKey: string =
   'confirmDiscardChangesPermanentlyKey'
 const confirmForcePushKey: string = 'confirmForcePush'
 const confirmUndoCommitKey: string = 'confirmUndoCommit'
+const confirmCommitFilteredChangesKey: string =
+  'confirmCommitFilteredChangesKey'
 
 const uncommittedChangesStrategyKey = 'uncommittedChangesStrategyKind'
 
@@ -517,6 +521,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
   private confirmCheckoutCommit: boolean = confirmCheckoutCommitDefault
   private askForConfirmationOnForcePush = askForConfirmationOnForcePushDefault
   private confirmUndoCommit: boolean = confirmUndoCommitDefault
+  private confirmCommitFilteredChanges: boolean =
+    confirmCommitFilteredChangesDefault
   private imageDiffType: ImageDiffType = imageDiffTypeDefault
   private hideWhitespaceInChangesDiff: boolean =
     hideWhitespaceInChangesDiffDefault
@@ -1040,6 +1046,8 @@ export class AppStore extends TypedBaseStore<IAppState> {
       askForConfirmationOnCheckoutCommit: this.confirmCheckoutCommit,
       askForConfirmationOnForcePush: this.askForConfirmationOnForcePush,
       askForConfirmationOnUndoCommit: this.confirmUndoCommit,
+      askForConfirmationOnCommitFilteredChanges:
+        this.confirmCommitFilteredChanges,
       uncommittedChangesStrategy: this.uncommittedChangesStrategy,
       selectedExternalEditor: this.selectedExternalEditor,
       imageDiffType: this.imageDiffType,
@@ -2206,6 +2214,11 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.confirmUndoCommit = getBoolean(
       confirmUndoCommitKey,
       confirmUndoCommitDefault
+    )
+
+    this.confirmCommitFilteredChanges = getBoolean(
+      confirmCommitFilteredChangesKey,
+      confirmCommitFilteredChangesDefault
     )
 
     this.uncommittedChangesStrategy =
@@ -5618,6 +5631,12 @@ export class AppStore extends TypedBaseStore<IAppState> {
     return shell.openExternal(url)
   }
 
+  public async _editGlobalGitConfig() {
+    await getGlobalConfigPath()
+      .then(p => this._openInExternalEditor(p))
+      .catch(e => log.error('Could not open global Git config for editing', e))
+  }
+
   /** Open a path to a repository or file using the user's configured editor */
   public async _openInExternalEditor(fullPath: string): Promise<void> {
     const { selectedExternalEditor, useCustomEditor, customEditor } =
@@ -5746,6 +5765,15 @@ export class AppStore extends TypedBaseStore<IAppState> {
   public _setConfirmUndoCommitSetting(value: boolean): Promise<void> {
     this.confirmUndoCommit = value
     setBoolean(confirmUndoCommitKey, value)
+
+    this.emitUpdate()
+
+    return Promise.resolve()
+  }
+
+  public _setConfirmCommitFilteredChanges(value: boolean): Promise<void> {
+    this.confirmCommitFilteredChanges = value
+    setBoolean(confirmCommitFilteredChangesKey, value)
 
     this.emitUpdate()
 

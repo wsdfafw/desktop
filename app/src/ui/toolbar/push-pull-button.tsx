@@ -421,6 +421,7 @@ export class PushPullButton extends React.Component<
           onResize={this.onResize}
           maximumWidth={this.props.pushPullButtonWidth.max}
           minimumWidth={this.props.pushPullButtonWidth.min}
+          description="Push pull button"
         >
           {this.renderButton()}
           <span id="push-pull-button-state">
@@ -541,8 +542,8 @@ export class PushPullButton extends React.Component<
     return (
       <ToolbarButton
         {...this.defaultButtonProps()}
-        title="发布分支"
-        description="无法发布未初始化的 HEAD 指针"
+        title="Publish branch"
+        description="Cannot publish: no commits"
         icon={octicons.upload}
         disabled={true}
       />

@@ -7,6 +7,7 @@ import { UNSAFE_openDirectory } from '../shell'
 import { MenuLabelsEvent } from '../../models/menu-labels'
 import * as ipcWebContents from '../ipc-webcontents'
 import { mkdir } from 'fs/promises'
+import { buildTestMenu } from './build-test-menu'
 
 const createPullRequestLabel = __DARWIN__ ? '创建拉取请求' : '创建拉取请求'
 const showPullRequestLabel = __DARWIN__
@@ -24,6 +25,10 @@ enum ZoomDirection {
   Reset,
   In,
   Out,
+}
+
+export const separator: Electron.MenuItemConstructorOptions = {
+  type: 'separator',
 }
 
 export function buildDefaultMenu({
@@ -51,7 +56,6 @@ export function buildDefaultMenu({
     : createPullRequestLabel
 
   const template = new Array<Electron.MenuItemConstructorOptions>()
-  const separator: Electron.MenuItemConstructorOptions = { type: 'separator' }
 
   if (__DARWIN__) {
     template.push({
@@ -534,108 +538,7 @@ export function buildDefaultMenu({
     showLogsItem,
   ]
 
-  if (__DEV__) {
-    helpItems.push(
-      separator,
-      {
-        label: '主进程爆炸…',
-        click() {
-          throw new Error('Boomtown!')
-        },
-      },
-      {
-        label: '渲染进程爆炸…',
-        click: emit('boomtown'),
-      },
-      {
-        label: '弹窗',
-        submenu: [
-          {
-            label: '更新日志',
-            click: emit('show-release-notes-popup'),
-          },
-          {
-            label: '感谢小卡片',
-            click: emit('show-thank-you-popup'),
-          },
-          {
-            label: '软件报错',
-            click: emit('show-app-error'),
-          },
-          {
-            label: 'Octicons 图标',
-            click: emit('show-icon-test-dialog'),
-          },
-        ],
-      },
-      {
-        label: '修剪分支',
-        click: emit('test-prune-branches'),
-      }
-    )
-  }
-
-  if (__RELEASE_CHANNEL__ === 'development' || __RELEASE_CHANNEL__ === 'test') {
-    if (__WIN32__) {
-      helpItems.push(separator, {
-        label: '命令行工具',
-        submenu: [
-          {
-            label: '安装',
-            click: emit('install-windows-cli'),
-          },
-          {
-            label: '卸载',
-            click: emit('uninstall-windows-cli'),
-          },
-        ],
-      })
-    }
-
-    helpItems.push(
-      {
-        label: '通知',
-        click: emit('test-show-notification'),
-      },
-      {
-        label: '横幅',
-        submenu: [
-          {
-            label: '更新',
-            click: emit('show-update-banner'),
-          },
-          {
-            label: `更新亮点展示`,
-            click: emit('show-showcase-update-banner'),
-          },
-          {
-            label: `${__DARWIN__ ? 'Apple silicon' : 'Arm64'} 更新`,
-            click: emit('show-arm64-banner'),
-          },
-          {
-            label: '感谢小卡片',
-            click: emit('show-thank-you-banner'),
-          },
-          {
-            label: '重排成功',
-            click: emit('show-test-reorder-banner'),
-          },
-          {
-            label: '重排撤销',
-            click: emit('show-test-undone-banner'),
-          },
-          {
-            label: '摘取冲突',
-            click: emit('show-test-cherry-pick-conflicts-banner'),
-          },
-          {
-            label: '合并成功',
-            click: emit('show-test-merge-successful-banner'),
-          },
-        ],
-      }
-    )
-  }
+  helpItems.push(...buildTestMenu())
 
   if (__DARWIN__) {
     template.push({
@@ -695,7 +598,7 @@ type ClickHandler = (
  * Utility function returning a Click event handler which, when invoked, emits
  * the provided menu event over IPC.
  */
-function emit(name: MenuEvent): ClickHandler {
+export function emit(name: MenuEvent): ClickHandler {
   return (_, focusedWindow) => {
     // focusedWindow can be null if the menu item was clicked without the window
     // being in focus. A simple way to reproduce this is to click on a menu item

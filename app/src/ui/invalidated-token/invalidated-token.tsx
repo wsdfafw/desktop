@@ -24,7 +24,9 @@ export class InvalidatedToken extends React.Component<IInvalidatedTokenProps> {
       <Dialog
         id="invalidated-token"
         type="warning"
-        title="警告"
+        title={
+          __DARWIN__ ? 'Invalidated Account Token' : 'Invalidated account token'
+        }
         onSubmit={this.onSubmit}
         onDismissed={this.props.onDismissed}
       >

@@ -26,9 +26,10 @@ export class WhitespaceHintPopover extends React.Component<IWhitespaceHintPopove
         className={'whitespace-hint'}
         appearEffect={PopoverAppearEffect.Shake}
         ariaLabelledby="whitespace-hint-header"
+        ariaDescribedBy="whitespace-hint-message"
       >
         <h3 id="whitespace-hint-header">显示空白字符差异？</h3>
-        <p className="byline">隐藏空白字符差异时，无法单独选中某几行文本。</p>
+        <p id="whitespace-hint-message" className="byline">隐藏空白字符差异时，无法单独选中某几行文本。</p>
         <footer>
           <OkCancelButtonGroup
             okButtonText="显示"
